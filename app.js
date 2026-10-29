@@ -48,7 +48,7 @@ async function rpc(fn, args) {
 /* ---------------- state ---------------- */
 const S = {
   token: null, me: null, tab: 'tabelle', loaded: false, err: null,
-  set: {}, players: [], A: {}, races: [], results: [], own: [], prp: [], owned: [], standings: [], picks: [], transfers: [], admin: null,
+  set: {}, info: {}, players: [], A: {}, races: [], results: [], own: [], prp: [], owned: [], standings: [], picks: [], transfers: [], admin: null,
   ui: { tab: 'tabelle', dg: 'm', dq: '', tg: 'm', tq: '', open: null, race: null, confirm: null }
 };
 const params = new URLSearchParams(location.search);
@@ -72,6 +72,7 @@ async function load() {
       if (!S.me) { store('sf_token', null); S.token = null; }
       else if (S.me.is_admin) S.admin = await rpc('admin_state', { p_token: S.token });
     }
+    if (!S.infoLoaded) { try { S.info = await (await fetch('data/athletes.json?v=1')).json(); S.infoLoaded = true; } catch (e) { } }
     S.err = null; S.loaded = true;
   } catch (e) { S.err = e.message; S.loaded = true; }
   render();
@@ -84,7 +85,9 @@ const A = id => S.A[id] || { first: '', last: id, nat: '', g: 'm', prev: 0 };
 const FLAG = {"SUI":"ch","AUT":"at","GER":"de","ITA":"it","FRA":"fr","NOR":"no","SWE":"se","FIN":"fi","USA":"us","CAN":"ca","SLO":"si","CRO":"hr","CZE":"cz","SVK":"sk","POL":"pl","BRA":"br","ALB":"al","NZL":"nz","BEL":"be","GBR":"gb","BUL":"bg","AND":"ad","ESP":"es","CHI":"cl","JPN":"jp","EST":"ee","LAT":"lv","BIH":"ba","HUN":"hu","ISR":"il","DEN":"dk","NED":"nl","ARG":"ar","AUS":"au","KOR":"kr","LIE":"li","MON":"mc","GRE":"gr","ROU":"ro","UKR":"ua","IRL":"ie","ISL":"is","LTU":"lt","SRB":"rs","MKD":"mk","MNE":"me","KOS":"xk","CHN":"cn","KAZ":"kz","GEO":"ge","TUR":"tr","POR":"pt","LUX":"lu","MEX":"mx","IRI":"ir","IND":"in","LIB":"lb","HAI":"ht","ARM":"am","CYP":"cy","MAR":"ma","RSA":"za","COL":"co","PER":"pe","THA":"th","TPE":"tw","PHI":"ph","KGZ":"kg","AZE":"az","BLR":"by","MDA":"md","PAK":"pk","LBN":"lb","ECU":"ec","VEN":"ve","URU":"uy","BOL":"bo","ERI":"er","GHA":"gh","NGR":"ng","KEN":"ke","TOG":"tg","TLS":"tl","MLT":"mt","SMR":"sm","ASA":"as","PUR":"pr","IVB":"vg","MAD":"mg","EGY":"eg","KSA":"sa","UAE":"ae","QAT":"qa","NEP":"np","MGL":"mn","SGP":"sg","HKG":"hk"};
 const flag = nat => FLAG[nat] ? `<img class="flag" src="flags/${FLAG[nat]}.svg" alt="${esc(nat)}" width="18" height="14" loading="lazy">` : '';
 const initials = a => ((a.first || '').trim()[0] || '') + ((a.last || '').replace(/^(von|van|de|della|del|di)\s+/i, '').trim()[0] || '');
-const aHtml = (id, opts) => { const a = A(id); return `<span class="ath"><span class="av ${a.g === 'w' ? 'w' : 'm'}" aria-hidden="true">${esc(initials(a).toUpperCase())}</span><span class="name">${esc(a.first)} <b>${esc(a.last)}</b>${opts === 'nonat' ? '' : `<span class="nat">${flag(a.nat)}${esc(a.nat)}</span>`}</span></span>`; };
+const picUrl = id => { const i = S.info[id]; return i && i.fis ? 'https://www.fis-ski.com/DB/general/load-competitor-picture/' + i.fis + '.html' : ''; };
+const avHtml = (id, big) => { const a = A(id); const u = picUrl(id); return `<span class="av ${a.g === 'w' ? 'w' : 'm'}${big ? ' big' : ''}" aria-hidden="true">${esc(initials(a).toUpperCase())}${u ? `<img src="${u}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}</span>`; };
+const aHtml = (id, opts) => { const a = A(id); return `<span class="ath" ${opts === 'nonat' ? '' : `data-act="ath" data-id="${esc(id)}" role="button" tabindex="0"`}>${avHtml(id)}<span class="name">${esc(a.first)} <b>${esc(a.last)}</b>${opts === 'nonat' ? '' : `<span class="nat">${flag(a.nat)}${esc(a.nat)}</span>`}</span></span>`; };
 const phase = () => S.set.draft_done ? 'season' : S.set.order_drawn ? 'drawn' : (Date.now() > new Date(S.set.reg_deadline).getTime() ? 'closed' : 'reg');
 const currentRoster = pid => S.own.filter(o => o.player_id === pid && !o.to_ts).map(o => o.athlete_id);
 const ownerNow = aid => { const o = S.own.find(o => o.athlete_id === aid && !o.to_ts); return o ? o.player_id : null; };
@@ -330,6 +333,35 @@ function vJoin() {
     <div class="tiny muted">Kein Konto, kein Passwort. Du bekommst einen persönlichen Link, über den du immer reinkommst.</div></div>`;
 }
 
+/* ----- Athlet-Fenster ----- */
+const DISC_ORDER = ['Abfahrt', 'Super-G', 'Riesenslalom', 'Slalom', 'Kombination', 'Parallel'];
+const DCODE = { DH: 'Abfahrt', SG: 'Super-G', GS: 'Riesenslalom', SL: 'Slalom' };
+function vAthlete(id) {
+  const a = A(id); const inf = S.info[id] || {}; const own = ownerNow(id);
+  const rows = S.results.filter(r => r.athlete_id === id).map(r => ({ r, race: S.races.find(x => x.id === r.race_id) })).filter(x => x.race).sort((x, y) => y.race.date.localeCompare(x.race.date));
+  const sp = rows.filter(x => x.race.counts).reduce((s, x) => s + x.r.pts, 0);
+  const groups = DISC_ORDER.map(d => [d, rows.filter(x => x.race.disc === d)]).filter(g => g[1].length);
+  const last = inf.d || {};
+  const fisLink = inf.fis ? `https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=AL&competitorid=${inf.fis}` : '';
+  return `<div class="modal-bg" data-act="closeAth"></div><div class="modal" role="dialog" aria-modal="true" aria-label="${esc(a.first + ' ' + a.last)}">
+    <button class="icon-btn modal-x" data-act="closeAth" aria-label="Schliessen">${I.x}</button>
+    <div class="row" style="gap:14px;align-items:center">${avHtml(id, true)}<div class="grow"><div class="eyebrow">${a.g === 'w' ? 'Frauen' : 'Männer'}</div>
+      <div class="d" style="font-size:26px;font-weight:800;line-height:1.05;text-transform:uppercase">${esc(a.first)}<br>${esc(a.last)}</div>
+      <div class="nat" style="margin:4px 0 0">${flag(a.nat)}${esc(a.nat)}</div></div></div>
+    <div class="grid3"><div><div class="eyebrow">Besitzer</div><div style="font-weight:700;color:${own && S.me && own === S.me.id ? 'var(--men)' : 'var(--fg)'}">${S.set.draft_done ? (own ? esc(pName(own)) : 'frei') : 'Draft offen'}</div></div>
+      <div><div class="eyebrow">Pkt. 26/27</div><div class="num" style="font-size:22px">${sp}</div></div>
+      <div><div class="eyebrow">Gesamt 25/26</div><div class="num" style="font-size:22px">${inf.o ? inf.o[0] + '.' : '–'}</div><div class="tiny muted">${inf.o ? fmtN(inf.o[1]) + ' Pkt.' : 'keine Punkte'}</div></div></div>
+    <h3>Saison 2026/27</h3>
+    ${groups.length ? groups.map(([d, list]) => `<div><div class="tiny" style="color:var(--soft);font-weight:700;margin:4px 0">${d}</div><div class="list">${list.map(x => `<div class="item small"><span class="badge ${x.r.rank <= 3 ? 'g' + x.r.rank : ''}">${x.r.rank}</span><div class="grow">${esc(x.race.place)}<div class="tiny muted">${fmtD(x.race.date)}${x.race.counts ? '' : ' · zählt nicht'}</div></div><span class="num">${x.r.pts}</span></div>`).join('')}</div></div>`).join('') : '<div class="small muted">Noch keine Top-30-Klassierung in dieser Saison.</div>'}
+    <h3>Saison 2025/26 nach Disziplin</h3>
+    <div class="list">${['DH', 'SG', 'GS', 'SL'].map(k => `<div class="item small"><div class="grow">${DCODE[k]}</div><span class="muted">${last[k] ? last[k][0] + '. Rang' : '–'}</span><span class="num" style="width:56px;text-align:right">${last[k] ? fmtN(last[k][1]) : ''}</span></div>`).join('')}</div>
+    ${fisLink ? `<a class="btn ghost" href="${fisLink}" target="_blank" rel="noopener" style="text-align:center;text-decoration:none">Alle Resultate auf fis-ski.com</a>` : ''}
+  </div>`;
+}
+function openAth(id) { let m = document.getElementById('athModal'); if (!m) { m = document.createElement('div'); m.id = 'athModal'; document.body.appendChild(m); } m.innerHTML = vAthlete(id); document.body.classList.add('noscroll'); const x = m.querySelector('.modal-x'); if (x) x.focus(); }
+function closeAth() { const m = document.getElementById('athModal'); if (m) m.remove(); document.body.classList.remove('noscroll'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAth(); if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.ath[data-act]')) { e.preventDefault(); openAth(e.target.dataset.id); } });
+
 /* ---------------- actions ---------------- */
 let saveTimer = null;
 function saveDraftWish(g) {
@@ -365,6 +397,8 @@ document.addEventListener('click', async e => {
   const act = b.dataset.act, id = b.dataset.id;
   const dw = S.me && S.me.draft_wish; const g = S.ui.dg;
   switch (act) {
+    case 'ath': e.preventDefault(); e.stopPropagation(); openAth(id); break;
+    case 'closeAth': closeAth(); break;
     case 'hideHint': store('sf_hint', '1'); render(); break;
     case 'openP': S.ui.open = S.ui.open === +id ? null : +id; render(); break;
     case 'race': S.ui.race = S.ui.race === id ? null : id; render(); break;
