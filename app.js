@@ -87,7 +87,10 @@ const flag = nat => FLAG[nat] ? `<img class="flag" src="flags/${FLAG[nat]}.svg" 
 const initials = a => ((a.first || '').trim()[0] || '') + ((a.last || '').replace(/^(von|van|de|della|del|di)\s+/i, '').trim()[0] || '');
 const picUrl = id => { const i = S.info[id]; return i && i.fis ? 'https://www.fis-ski.com/DB/general/load-competitor-picture/' + i.fis + '.html' : ''; };
 const avHtml = (id, big) => { const a = A(id); const u = picUrl(id); return `<span class="av ${a.g === 'w' ? 'w' : 'm'}${big ? ' big' : ''}" aria-hidden="true">${esc(initials(a).toUpperCase())}${u ? `<img src="${u}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}</span>`; };
-const aHtml = (id, opts) => { const a = A(id); return `<span class="ath" ${opts === 'nonat' ? '' : `data-act="ath" data-id="${esc(id)}" role="button" tabindex="0"`}>${avHtml(id)}<span class="name">${esc(a.first)} <b>${esc(a.last)}</b>${opts === 'nonat' ? '' : `<span class="nat">${flag(a.nat)}${esc(a.nat)}</span>`}</span></span>`; };
+const ST = { retired: ['Rücktritt', 'no'], out: ['Saison-Aus', 'no'], doubt: ['fraglich', 'warn'] };
+const blocked = a => a && (a.status === 'retired' || a.status === 'out');
+const stChip = id => { const a = A(id); const st = ST[a.status]; return st ? `<span class="chip ${st[1]}" title="${esc(a.status_note || '')}" style="margin-left:6px;vertical-align:middle">${st[0]}</span>` : ''; };
+const aHtml = (id, opts) => { const a = A(id); return `<span class="ath" ${opts === 'nonat' ? '' : `data-act="ath" data-id="${esc(id)}" role="button" tabindex="0"`}>${avHtml(id)}<span class="name">${esc(a.first)} <b>${esc(a.last)}</b>${opts === 'nonat' ? '' : `<span class="nat">${flag(a.nat)}${esc(a.nat)}</span>`}${stChip(id)}</span></span>`; };
 const phase = () => S.set.draft_done ? 'season' : S.set.order_drawn ? 'drawn' : (Date.now() > new Date(S.set.reg_deadline).getTime() ? 'closed' : 'reg');
 const currentRoster = pid => S.own.filter(o => o.player_id === pid && !o.to_ts).map(o => o.athlete_id);
 const ownerNow = aid => { const o = S.own.find(o => o.athlete_id === aid && !o.to_ts); return o ? o.player_id : null; };
@@ -213,7 +216,7 @@ function vDraft() {
   const T = S.players.length; const pos = S.me.draft_pos; const gpos = pos ? (g === 'm' ? pos : T - pos + 1) : null;
   const rec = Math.min(25, 5 + (gpos || T));
   let info = gpos ? `Du wählst bei den ${g === 'm' ? 'Männern' : 'Frauen'} an <b>${gpos}. Stelle</b> von ${T}.` : `Die Reihenfolge wird am ${fmtDT(S.set.order_draw_at)} ausgelost.`;
-  info += ` Der Draft läuft am <b>${fmtDT(S.set.draft_at)}</b> automatisch. Liste mindestens <b>${rec}</b> ${g === 'm' ? 'Männer' : 'Frauen'}, je länger, desto sicherer.`;
+  info += ` Der Draft läuft am <b>${fmtDT(S.set.draft_at)}</b> automatisch. Liste mindestens <b>${rec}</b> ${g === 'm' ? 'Männer' : 'Frauen'}, je länger, desto sicherer. Rot markierte (Rücktritt, Saison-Aus) werden übersprungen, <b>fraglich</b> markierte nur per Wunschliste gewählt.`;
   return `<div class="seg" role="group" aria-label="Geschlecht">
       <button class="m" data-act="dg" data-g="m" aria-pressed="${g === 'm'}">Männer · ${((S.me.draft_wish || {}).m || []).length}</button>
       <button class="w" data-act="dg" data-g="w" aria-pressed="${g === 'w'}">Frauen · ${((S.me.draft_wish || {}).w || []).length}</button></div>
@@ -229,9 +232,9 @@ function vDraft() {
 function draftPool() {
   const g = S.ui.dg; const list = (S.me.draft_wish && S.me.draft_wish[g]) || []; const q = norm(S.ui.dq).trim();
   const all = Object.values(S.A).filter(a => a.g === g && (!q || norm(a.first + ' ' + a.last + ' ' + a.nat).includes(q)))
-    .sort((a, b) => b.prev - a.prev || (a.prev_rank || 999) - (b.prev_rank || 999) || a.last.localeCompare(b.last)).slice(0, q ? 80 : 120);
-  return all.map(a => { const on = list.includes(a.id); return `<div class="item"><span class="num muted" style="width:28px">${a.prev_rank || '–'}</span><div class="grow">${aHtml(a.id)}</div><span class="num" style="font-size:16px;color:var(--soft)">${fmtN(a.prev)}</span>
-    <button class="icon-btn ${on ? 'on' : ''}" data-act="dStar" data-id="${esc(a.id)}" aria-label="${on ? 'Von Wunschliste entfernen' : 'Auf Wunschliste'}" aria-pressed="${on}">${on ? I.starOn : I.star}</button></div>`; }).join('') || '<div class="item muted small">Keine Treffer.</div>';
+    .sort((a, b) => (blocked(a) - blocked(b)) || b.prev - a.prev || (a.prev_rank || 999) - (b.prev_rank || 999) || a.last.localeCompare(b.last)).slice(0, q ? 80 : 160);
+  return all.map(a => { const on = list.includes(a.id); const bl = blocked(a); return `<div class="item"><span class="num muted" style="width:28px">${a.prev_rank || '–'}</span><div class="grow">${aHtml(a.id)}</div><span class="num" style="font-size:16px;color:var(--soft)">${fmtN(a.prev)}</span>
+    <button class="icon-btn ${on ? 'on' : ''}" data-act="dStar" data-id="${esc(a.id)}" aria-label="${bl ? 'Nicht wählbar' : on ? 'Von Wunschliste entfernen' : 'Auf Wunschliste'}" aria-pressed="${on}" ${bl && !on ? 'disabled' : ''}>${on ? I.starOn : I.star}</button></div>`; }).join('') || '<div class="item muted small">Keine Treffer.</div>';
 }
 
 /* ----- Kader ----- */
@@ -267,7 +270,7 @@ function freePool() {
   const g = S.ui.tg; const q = norm(S.ui.tq).trim(); const owned = new Set(S.own.filter(o => !o.to_ts).map(o => o.athlete_id));
   const wants = (S.me.transfer_wish || {}).wants || [];
   const list = Object.values(S.A).filter(a => a.g === g && !owned.has(a.id) && (!q || norm(a.first + ' ' + a.last + ' ' + a.nat).includes(q)))
-    .map(a => ({ a, sp: seasonPts(a.id) })).sort((x, y) => y.sp - x.sp || y.a.prev - x.a.prev).slice(0, 60);
+    .filter(a => a.status !== 'retired').map(a => ({ a, sp: seasonPts(a.id) })).sort((x, y) => (blocked(x.a) - blocked(y.a)) || y.sp - x.sp || y.a.prev - x.a.prev).slice(0, 60);
   return list.map(({ a, sp }) => { const on = wants.includes(a.id); return `<div class="item"><div class="grow">${aHtml(a.id)}<div class="tiny muted">${sp} Pkt. diese Saison · ${fmtN(a.prev)} letzte</div></div>
     <button class="icon-btn ${on ? 'on' : ''}" data-act="tAdd" data-id="${esc(a.id)}" aria-label="${on ? 'Gewünscht' : 'Auf Transferliste'}" ${on ? 'disabled' : ''}>${on ? I.starOn : I.plus}</button></div>`; }).join('') || '<div class="item muted small">Keine freien Athleten gefunden.</div>';
 }
@@ -348,6 +351,7 @@ function vAthlete(id) {
     <div class="row" style="gap:14px;align-items:center">${avHtml(id, true)}<div class="grow"><div class="eyebrow">${a.g === 'w' ? 'Frauen' : 'Männer'}</div>
       <div class="d" style="font-size:26px;font-weight:800;line-height:1.05;text-transform:uppercase">${esc(a.first)}<br>${esc(a.last)}</div>
       <div class="nat" style="margin:4px 0 0">${flag(a.nat)}${esc(a.nat)}</div></div></div>
+    ${ST[a.status] ? `<div class="notice ${a.status === 'doubt' ? '' : 'err'}"><b>${ST[a.status][0]}:</b> ${esc(a.status_note || '')}${blocked(a) ? ' · wird im Draft übersprungen' : ' · Auto-Pick lässt ihn/sie aus, per Wunschliste wählbar'}</div>` : ''}
     <div class="grid3"><div><div class="eyebrow">Besitzer</div><div style="font-weight:700;color:${own && S.me && own === S.me.id ? 'var(--men)' : 'var(--fg)'}">${S.set.draft_done ? (own ? esc(pName(own)) : 'frei') : 'Draft offen'}</div></div>
       <div><div class="eyebrow">Pkt. 26/27</div><div class="num" style="font-size:22px">${sp}</div></div>
       <div><div class="eyebrow">Gesamt 25/26</div><div class="num" style="font-size:22px">${inf.o ? inf.o[0] + '.' : '–'}</div><div class="tiny muted">${inf.o ? fmtN(inf.o[1]) + ' Pkt.' : 'keine Punkte'}</div></div></div>
@@ -404,7 +408,7 @@ document.addEventListener('click', async e => {
     case 'race': S.ui.race = S.ui.race === id ? null : id; render(); break;
     case 'dg': S.ui.dg = b.dataset.g; render(); break;
     case 'tg': S.ui.tg = b.dataset.g; render(); break;
-    case 'dStar': { const l = dw[g] = (dw[g] || []).slice(); const i = l.indexOf(id); if (i >= 0) l.splice(i, 1); else l.push(id); saveDraftWish(g); render(); break; }
+    case 'dStar': { const l = dw[g] = (dw[g] || []).slice(); const i = l.indexOf(id); if (i < 0 && blocked(A(id))) { toast('Nicht wählbar: ' + (A(id).status_note || 'Rücktritt/Saison-Aus')); break; } if (i >= 0) l.splice(i, 1); else l.push(id); saveDraftWish(g); render(); break; }
     case 'dUp': { const l = dw[g]; const i = +b.dataset.i; [l[i - 1], l[i]] = [l[i], l[i - 1]]; saveDraftWish(g); render(); break; }
     case 'dDel': { dw[g].splice(+b.dataset.i, 1); saveDraftWish(g); render(); break; }
     case 'tAdd': case 'tUp': case 'tDel': case 'tDrop': {

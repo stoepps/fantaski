@@ -75,7 +75,9 @@ create table if not exists athletes (
   g text not null check (g in ('m','w')),
   prev int not null default 0,
   prev_rank int,
-  key text generated always as (fold(first || ' ' || last)) stored
+  key text generated always as (fold(first || ' ' || last)) stored,
+  status text check (status in ('retired','out','doubt')),
+  status_note text
 );
 create index if not exists athletes_key on athletes (key);
 
@@ -157,7 +159,7 @@ create or replace view v_players as
   select id, name, draft_pos, joined_at from players where active;
 
 create or replace view v_athletes as
-  select id, first, last, nat, g, prev, prev_rank from athletes;
+  select id, first, last, nat, g, prev, prev_rank, status, status_note from athletes;
 
 create or replace view v_races as
   select r.id, r.date, r.place, r.disc, r.g, r.source,
@@ -323,13 +325,14 @@ begin
         select u.a into pick
           from draft_wish dw, unnest(dw.list) with ordinality u(a, o)
           where dw.player_id = pid and dw.g = v_g
-            and exists (select 1 from athletes where id = u.a and athletes.g = v_g)
+            and exists (select 1 from athletes where id = u.a and athletes.g = v_g
+                        and coalesce(athletes.status, '') not in ('retired', 'out'))
             and not exists (select 1 from ownership where athlete_id = u.a and to_ts is null)
           order by u.o limit 1;
         if pick is null then
           isauto := true;
           select id into pick from athletes a
-            where a.g = v_g and not exists (select 1 from ownership where athlete_id = a.id and to_ts is null)
+            where a.g = v_g and a.status is null and not exists (select 1 from ownership where athlete_id = a.id and to_ts is null)
             order by a.prev desc, a.prev_rank asc nulls last, a.last limit 1;
         end if;
         if pick is null then raise exception 'Zu wenige Athleten im Pool.'; end if;
