@@ -12,6 +12,7 @@ update athletes a set status = v.s, status_note = v.n from (values
   ('lara-gut-behrami', 'retired', 'Rücktritt (Okt. 2026)'),
   ('michelle-gisin', 'retired', 'Rücktritt (Nov. 2026)'),
   ('ilka-stuhec', 'retired', 'Rücktritt (Apr. 2026)'),
+  ('mirjam-puchner', 'retired', 'Rücktritt (Juni 2026)'),
   ('ana-bucik-jogan', 'retired', 'Rücktritt 2026'),
   ('christina-ager', 'retired', 'Rücktritt 2026'),
   ('joana-hahlen', 'retired', 'Rücktritt 2026'),
