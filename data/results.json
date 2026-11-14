@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-25T21:00:00Z",
+ "updated": "2026-11-14T17:48:32Z",
  "races": [
   {
    "id": "2026-10-24-w-riesenslalom-solden",
@@ -354,6 +354,178 @@
      "first": "Hans",
      "last": "Grahl-Madsen",
      "nat": "NOR"
+    }
+   ]
+  },
+  {
+   "id": "2026-11-14-w-slalom-levi",
+   "date": "2026-11-14",
+   "place": "Levi",
+   "disc": "Slalom",
+   "g": "w",
+   "source": "https://www.ski-db.com/db/27/95202701wc.php",
+   "results": [
+    {
+     "rank": 1,
+     "first": "Emma",
+     "last": "Aicher",
+     "nat": "GER"
+    },
+    {
+     "rank": 2,
+     "first": "Lara",
+     "last": "Colturi",
+     "nat": "ALB"
+    },
+    {
+     "rank": 3,
+     "first": "Katharina",
+     "last": "Truppe",
+     "nat": "AUT"
+    },
+    {
+     "rank": 4,
+     "first": "Zrinka",
+     "last": "Ljutić",
+     "nat": "CRO"
+    },
+    {
+     "rank": 5,
+     "first": "Anna",
+     "last": "Swenn Larsson",
+     "nat": "SWE"
+    },
+    {
+     "rank": 6,
+     "first": "Marion",
+     "last": "Chevrier",
+     "nat": "FRA"
+    },
+    {
+     "rank": 7,
+     "first": "Marie",
+     "last": "Lamure",
+     "nat": "FRA"
+    },
+    {
+     "rank": 8,
+     "first": "Madison",
+     "last": "Hoffman",
+     "nat": "AUS"
+    },
+    {
+     "rank": 9,
+     "first": "Katharina",
+     "last": "Huber",
+     "nat": "AUT"
+    },
+    {
+     "rank": 10,
+     "first": "Wendy",
+     "last": "Holdener",
+     "nat": "SUI"
+    },
+    {
+     "rank": 11,
+     "first": "Camille",
+     "last": "Rast",
+     "nat": "SUI"
+    },
+    {
+     "rank": 12,
+     "first": "Dzenifera",
+     "last": "Germane",
+     "nat": "LAT"
+    },
+    {
+     "rank": 13,
+     "first": "Sara",
+     "last": "Hector",
+     "nat": "SWE"
+    },
+    {
+     "rank": 14,
+     "first": "Aline",
+     "last": "Höpli",
+     "nat": "SUI"
+    },
+    {
+     "rank": 15,
+     "first": "AJ",
+     "last": "Hurt",
+     "nat": "USA"
+    },
+    {
+     "rank": 16,
+     "first": "Petra",
+     "last": "Vlhová",
+     "nat": "SVK"
+    },
+    {
+     "rank": 17,
+     "first": "Neja",
+     "last": "Dvornik",
+     "nat": "SLO"
+    },
+    {
+     "rank": 18,
+     "first": "Lena",
+     "last": "Dürr",
+     "nat": "GER"
+    },
+    {
+     "rank": 19,
+     "first": "Beatrice",
+     "last": "Sola",
+     "nat": "ITA"
+    },
+    {
+     "rank": 20,
+     "first": "Lara",
+     "last": "Della Mea",
+     "nat": "ITA"
+    },
+    {
+     "rank": 21,
+     "first": "Charlotte",
+     "last": "Lingg",
+     "nat": "LIE"
+    },
+    {
+     "rank": 22,
+     "first": "Laurence",
+     "last": "St-Germain",
+     "nat": "CAN"
+    },
+    {
+     "rank": 23,
+     "first": "Valentina",
+     "last": "Rings-Wanner",
+     "nat": "AUT"
+    },
+    {
+     "rank": 24,
+     "first": "Martina",
+     "last": "Peterlini",
+     "nat": "ITA"
+    },
+    {
+     "rank": 25,
+     "first": "Franziska",
+     "last": "Gritsch",
+     "nat": "AUT"
+    },
+    {
+     "rank": 26,
+     "first": "Caitlin",
+     "last": "McFarlane",
+     "nat": "FRA"
+    },
+    {
+     "rank": 27,
+     "first": "Hanna",
+     "last": "Aronsson Elfman",
+     "nat": "SWE"
     }
    ]
   }
