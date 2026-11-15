@@ -1,533 +1,675 @@
 {
- "updated": "2026-11-14T17:48:32Z",
- "races": [
-  {
-   "id": "2026-10-24-w-riesenslalom-solden",
-   "date": "2026-10-24",
-   "place": "Sölden",
-   "disc": "Riesenslalom",
-   "g": "w",
-   "source": "https://www.fis-ski.com",
-   "results": [
+  "updated": "2026-11-15T21:35:19Z",
+  "races": [
     {
-     "rank": 1,
-     "first": "Paula",
-     "last": "Moltzan",
-     "nat": "USA"
+      "id": "2026-10-24-w-riesenslalom-solden",
+      "date": "2026-10-24",
+      "place": "Sölden",
+      "disc": "Riesenslalom",
+      "g": "w",
+      "source": "https://www.fis-ski.com",
+      "results": [
+        {
+          "rank": 1,
+          "first": "Paula",
+          "last": "Moltzan",
+          "nat": "USA"
+        },
+        {
+          "rank": 2,
+          "first": "Lara",
+          "last": "Colturi",
+          "nat": "ALB"
+        },
+        {
+          "rank": 3,
+          "first": "Emma",
+          "last": "Aicher",
+          "nat": "GER"
+        },
+        {
+          "rank": 4,
+          "first": "Sara",
+          "last": "Hector",
+          "nat": "SWE"
+        },
+        {
+          "rank": 5,
+          "first": "Asja",
+          "last": "Zenere",
+          "nat": "ITA"
+        },
+        {
+          "rank": 6,
+          "first": "Camille",
+          "last": "Rast",
+          "nat": "SUI"
+        },
+        {
+          "rank": 7,
+          "first": "Mikaela",
+          "last": "Shiffrin",
+          "nat": "USA"
+        },
+        {
+          "rank": 8,
+          "first": "Alice",
+          "last": "Robinson",
+          "nat": "NZL"
+        },
+        {
+          "rank": 9,
+          "first": "Maryna",
+          "last": "Gąsienica-Daniel",
+          "nat": "POL"
+        },
+        {
+          "rank": 9,
+          "first": "Franziska",
+          "last": "Gritsch",
+          "nat": "AUT"
+        },
+        {
+          "rank": 11,
+          "first": "Zrinka",
+          "last": "Ljutić",
+          "nat": "CRO"
+        },
+        {
+          "rank": 12,
+          "first": "Estelle",
+          "last": "Alphand",
+          "nat": "SWE"
+        },
+        {
+          "rank": 13,
+          "first": "AJ",
+          "last": "Hurt",
+          "nat": "USA"
+        },
+        {
+          "rank": 14,
+          "first": "Elisabeth",
+          "last": "Bocock",
+          "nat": "USA"
+        },
+        {
+          "rank": 15,
+          "first": "Hilma",
+          "last": "Lövblom",
+          "nat": "SWE"
+        },
+        {
+          "rank": 16,
+          "first": "Mina",
+          "last": "Fürst Holtmann",
+          "nat": "NOR"
+        },
+        {
+          "rank": 16,
+          "first": "Nina",
+          "last": "O'Brien",
+          "nat": "USA"
+        },
+        {
+          "rank": 18,
+          "first": "Lara",
+          "last": "Della Mea",
+          "nat": "ITA"
+        },
+        {
+          "rank": 19,
+          "first": "Hanna",
+          "last": "Aronsson Elfman",
+          "nat": "SWE"
+        },
+        {
+          "rank": 20,
+          "first": "Wendy",
+          "last": "Holdener",
+          "nat": "SUI"
+        },
+        {
+          "rank": 20,
+          "first": "Thea Louise",
+          "last": "Stjernesund",
+          "nat": "NOR"
+        },
+        {
+          "rank": 22,
+          "first": "Lena",
+          "last": "Dürr",
+          "nat": "GER"
+        },
+        {
+          "rank": 23,
+          "first": "Petra",
+          "last": "Vlhová",
+          "nat": "SVK"
+        },
+        {
+          "rank": 24,
+          "first": "Simone",
+          "last": "Wild",
+          "nat": "SUI"
+        },
+        {
+          "rank": 25,
+          "first": "Stefanie",
+          "last": "Grob",
+          "nat": "SUI"
+        },
+        {
+          "rank": 26,
+          "first": "Kira",
+          "last": "Weidle-Winkelmann",
+          "nat": "GER"
+        },
+        {
+          "rank": 27,
+          "first": "Britt",
+          "last": "Richardson",
+          "nat": "CAN"
+        },
+        {
+          "rank": 28,
+          "first": "Vanessa",
+          "last": "Kasper",
+          "nat": "SUI"
+        },
+        {
+          "rank": 29,
+          "first": "Alice",
+          "last": "Pazzaglia",
+          "nat": "ITA"
+        },
+        {
+          "rank": 30,
+          "first": "Neja",
+          "last": "Dvornik",
+          "nat": "SLO"
+        }
+      ]
     },
     {
-     "rank": 2,
-     "first": "Lara",
-     "last": "Colturi",
-     "nat": "ALB"
+      "id": "2026-10-25-m-riesenslalom-solden",
+      "date": "2026-10-25",
+      "place": "Sölden",
+      "disc": "Riesenslalom",
+      "g": "m",
+      "source": "https://www.fis-ski.com",
+      "results": [
+        {
+          "rank": 1,
+          "first": "Lucas",
+          "last": "Pinheiro Braathen",
+          "nat": "BRA"
+        },
+        {
+          "rank": 2,
+          "first": "Loïc",
+          "last": "Meillard",
+          "nat": "SUI"
+        },
+        {
+          "rank": 3,
+          "first": "Marco",
+          "last": "Odermatt",
+          "nat": "SUI"
+        },
+        {
+          "rank": 4,
+          "first": "River",
+          "last": "Radamus",
+          "nat": "USA"
+        },
+        {
+          "rank": 5,
+          "first": "Raphael",
+          "last": "Haaser",
+          "nat": "AUT"
+        },
+        {
+          "rank": 6,
+          "first": "Fabian",
+          "last": "Gratz",
+          "nat": "GER"
+        },
+        {
+          "rank": 7,
+          "first": "Alex",
+          "last": "Vinatzer",
+          "nat": "ITA"
+        },
+        {
+          "rank": 8,
+          "first": "Eirik Hystad",
+          "last": "Solberg",
+          "nat": "NOR"
+        },
+        {
+          "rank": 9,
+          "first": "Leo",
+          "last": "Anguenot",
+          "nat": "FRA"
+        },
+        {
+          "rank": 10,
+          "first": "Patrick",
+          "last": "Feurstein",
+          "nat": "AUT"
+        },
+        {
+          "rank": 11,
+          "first": "Stefan",
+          "last": "Brennsteiner",
+          "nat": "AUT"
+        },
+        {
+          "rank": 12,
+          "first": "Freddy",
+          "last": "Carrick-Smith",
+          "nat": "GBR"
+        },
+        {
+          "rank": 13,
+          "first": "Thibaut",
+          "last": "Favrot",
+          "nat": "FRA"
+        },
+        {
+          "rank": 14,
+          "first": "Rasmus",
+          "last": "Bakkevig",
+          "nat": "NOR"
+        },
+        {
+          "rank": 15,
+          "first": "Anton",
+          "last": "Grammel",
+          "nat": "GER"
+        },
+        {
+          "rank": 16,
+          "first": "Eduard",
+          "last": "Hallberg",
+          "nat": "FIN"
+        },
+        {
+          "rank": 17,
+          "first": "Joshua",
+          "last": "Sturm",
+          "nat": "AUT"
+        },
+        {
+          "rank": 18,
+          "first": "Žan",
+          "last": "Kranjec",
+          "nat": "SLO"
+        },
+        {
+          "rank": 19,
+          "first": "Filip",
+          "last": "Zubčić",
+          "nat": "CRO"
+        },
+        {
+          "rank": 20,
+          "first": "Sam",
+          "last": "Maes",
+          "nat": "BEL"
+        },
+        {
+          "rank": 21,
+          "first": "Alexander",
+          "last": "Schmid",
+          "nat": "GER"
+        },
+        {
+          "rank": 22,
+          "first": "Henrik",
+          "last": "Kristoffersen",
+          "nat": "NOR"
+        },
+        {
+          "rank": 23,
+          "first": "Thomas",
+          "last": "Tumler",
+          "nat": "SUI"
+        },
+        {
+          "rank": 24,
+          "first": "Alban",
+          "last": "Elezi Cannaferina",
+          "nat": "FRA"
+        },
+        {
+          "rank": 25,
+          "first": "Lenz",
+          "last": "Haechler",
+          "nat": "SUI"
+        },
+        {
+          "rank": 26,
+          "first": "Hans",
+          "last": "Grahl-Madsen",
+          "nat": "NOR"
+        }
+      ]
     },
     {
-     "rank": 3,
-     "first": "Emma",
-     "last": "Aicher",
-     "nat": "GER"
+      "id": "2026-11-14-w-slalom-levi",
+      "date": "2026-11-14",
+      "place": "Levi",
+      "disc": "Slalom",
+      "g": "w",
+      "source": "https://www.ski-db.com/db/27/95202701wc.php",
+      "results": [
+        {
+          "rank": 1,
+          "first": "Emma",
+          "last": "Aicher",
+          "nat": "GER"
+        },
+        {
+          "rank": 2,
+          "first": "Lara",
+          "last": "Colturi",
+          "nat": "ALB"
+        },
+        {
+          "rank": 3,
+          "first": "Katharina",
+          "last": "Truppe",
+          "nat": "AUT"
+        },
+        {
+          "rank": 4,
+          "first": "Zrinka",
+          "last": "Ljutić",
+          "nat": "CRO"
+        },
+        {
+          "rank": 5,
+          "first": "Anna",
+          "last": "Swenn Larsson",
+          "nat": "SWE"
+        },
+        {
+          "rank": 6,
+          "first": "Marion",
+          "last": "Chevrier",
+          "nat": "FRA"
+        },
+        {
+          "rank": 7,
+          "first": "Marie",
+          "last": "Lamure",
+          "nat": "FRA"
+        },
+        {
+          "rank": 8,
+          "first": "Madison",
+          "last": "Hoffman",
+          "nat": "AUS"
+        },
+        {
+          "rank": 9,
+          "first": "Katharina",
+          "last": "Huber",
+          "nat": "AUT"
+        },
+        {
+          "rank": 10,
+          "first": "Wendy",
+          "last": "Holdener",
+          "nat": "SUI"
+        },
+        {
+          "rank": 11,
+          "first": "Camille",
+          "last": "Rast",
+          "nat": "SUI"
+        },
+        {
+          "rank": 12,
+          "first": "Dzenifera",
+          "last": "Germane",
+          "nat": "LAT"
+        },
+        {
+          "rank": 13,
+          "first": "Sara",
+          "last": "Hector",
+          "nat": "SWE"
+        },
+        {
+          "rank": 14,
+          "first": "Aline",
+          "last": "Höpli",
+          "nat": "SUI"
+        },
+        {
+          "rank": 15,
+          "first": "AJ",
+          "last": "Hurt",
+          "nat": "USA"
+        },
+        {
+          "rank": 16,
+          "first": "Petra",
+          "last": "Vlhová",
+          "nat": "SVK"
+        },
+        {
+          "rank": 17,
+          "first": "Neja",
+          "last": "Dvornik",
+          "nat": "SLO"
+        },
+        {
+          "rank": 18,
+          "first": "Lena",
+          "last": "Dürr",
+          "nat": "GER"
+        },
+        {
+          "rank": 19,
+          "first": "Beatrice",
+          "last": "Sola",
+          "nat": "ITA"
+        },
+        {
+          "rank": 20,
+          "first": "Lara",
+          "last": "Della Mea",
+          "nat": "ITA"
+        },
+        {
+          "rank": 21,
+          "first": "Charlotte",
+          "last": "Lingg",
+          "nat": "LIE"
+        },
+        {
+          "rank": 22,
+          "first": "Laurence",
+          "last": "St-Germain",
+          "nat": "CAN"
+        },
+        {
+          "rank": 23,
+          "first": "Valentina",
+          "last": "Rings-Wanner",
+          "nat": "AUT"
+        },
+        {
+          "rank": 24,
+          "first": "Martina",
+          "last": "Peterlini",
+          "nat": "ITA"
+        },
+        {
+          "rank": 25,
+          "first": "Franziska",
+          "last": "Gritsch",
+          "nat": "AUT"
+        },
+        {
+          "rank": 26,
+          "first": "Caitlin",
+          "last": "McFarlane",
+          "nat": "FRA"
+        },
+        {
+          "rank": 27,
+          "first": "Hanna",
+          "last": "Aronsson Elfman",
+          "nat": "SWE"
+        }
+      ]
     },
     {
-     "rank": 4,
-     "first": "Sara",
-     "last": "Hector",
-     "nat": "SWE"
-    },
-    {
-     "rank": 5,
-     "first": "Asja",
-     "last": "Zenere",
-     "nat": "ITA"
-    },
-    {
-     "rank": 6,
-     "first": "Camille",
-     "last": "Rast",
-     "nat": "SUI"
-    },
-    {
-     "rank": 7,
-     "first": "Mikaela",
-     "last": "Shiffrin",
-     "nat": "USA"
-    },
-    {
-     "rank": 8,
-     "first": "Alice",
-     "last": "Robinson",
-     "nat": "NZL"
-    },
-    {
-     "rank": 9,
-     "first": "Maryna",
-     "last": "Gąsienica-Daniel",
-     "nat": "POL"
-    },
-    {
-     "rank": 9,
-     "first": "Franziska",
-     "last": "Gritsch",
-     "nat": "AUT"
-    },
-    {
-     "rank": 11,
-     "first": "Zrinka",
-     "last": "Ljutić",
-     "nat": "CRO"
-    },
-    {
-     "rank": 12,
-     "first": "Estelle",
-     "last": "Alphand",
-     "nat": "SWE"
-    },
-    {
-     "rank": 13,
-     "first": "AJ",
-     "last": "Hurt",
-     "nat": "USA"
-    },
-    {
-     "rank": 14,
-     "first": "Elisabeth",
-     "last": "Bocock",
-     "nat": "USA"
-    },
-    {
-     "rank": 15,
-     "first": "Hilma",
-     "last": "Lövblom",
-     "nat": "SWE"
-    },
-    {
-     "rank": 16,
-     "first": "Mina",
-     "last": "Fürst Holtmann",
-     "nat": "NOR"
-    },
-    {
-     "rank": 16,
-     "first": "Nina",
-     "last": "O'Brien",
-     "nat": "USA"
-    },
-    {
-     "rank": 18,
-     "first": "Lara",
-     "last": "Della Mea",
-     "nat": "ITA"
-    },
-    {
-     "rank": 19,
-     "first": "Hanna",
-     "last": "Aronsson Elfman",
-     "nat": "SWE"
-    },
-    {
-     "rank": 20,
-     "first": "Wendy",
-     "last": "Holdener",
-     "nat": "SUI"
-    },
-    {
-     "rank": 20,
-     "first": "Thea Louise",
-     "last": "Stjernesund",
-     "nat": "NOR"
-    },
-    {
-     "rank": 22,
-     "first": "Lena",
-     "last": "Dürr",
-     "nat": "GER"
-    },
-    {
-     "rank": 23,
-     "first": "Petra",
-     "last": "Vlhová",
-     "nat": "SVK"
-    },
-    {
-     "rank": 24,
-     "first": "Simone",
-     "last": "Wild",
-     "nat": "SUI"
-    },
-    {
-     "rank": 25,
-     "first": "Stefanie",
-     "last": "Grob",
-     "nat": "SUI"
-    },
-    {
-     "rank": 26,
-     "first": "Kira",
-     "last": "Weidle-Winkelmann",
-     "nat": "GER"
-    },
-    {
-     "rank": 27,
-     "first": "Britt",
-     "last": "Richardson",
-     "nat": "CAN"
-    },
-    {
-     "rank": 28,
-     "first": "Vanessa",
-     "last": "Kasper",
-     "nat": "SUI"
-    },
-    {
-     "rank": 29,
-     "first": "Alice",
-     "last": "Pazzaglia",
-     "nat": "ITA"
-    },
-    {
-     "rank": 30,
-     "first": "Neja",
-     "last": "Dvornik",
-     "nat": "SLO"
+      "id": "2026-11-15-m-slalom-levi",
+      "date": "2026-11-15",
+      "place": "Levi",
+      "disc": "Slalom",
+      "g": "m",
+      "source": "https://www.fis-ski.com/DB/general/results.html?sectorcode=AL&raceid=131580",
+      "results": [
+        {
+          "rank": 1,
+          "first": "Lucas",
+          "last": "Pinheiro Braathen",
+          "nat": "BRA"
+        },
+        {
+          "rank": 2,
+          "first": "Clement",
+          "last": "Noel",
+          "nat": "FRA"
+        },
+        {
+          "rank": 3,
+          "first": "Loic",
+          "last": "Meillard",
+          "nat": "SUI"
+        },
+        {
+          "rank": 4,
+          "first": "Fabian",
+          "last": "Ax Swartz",
+          "nat": "SWE"
+        },
+        {
+          "rank": 5,
+          "first": "Alex",
+          "last": "Vinatzer",
+          "nat": "ITA"
+        },
+        {
+          "rank": 6,
+          "first": "Paco",
+          "last": "Rassat",
+          "nat": "FRA"
+        },
+        {
+          "rank": 7,
+          "first": "Atle Lie",
+          "last": "McGrath",
+          "nat": "NOR"
+        },
+        {
+          "rank": 8,
+          "first": "Eduard",
+          "last": "Hallberg",
+          "nat": "FIN"
+        },
+        {
+          "rank": 9,
+          "first": "Samuel",
+          "last": "Kolega",
+          "nat": "CRO"
+        },
+        {
+          "rank": 10,
+          "first": "Albert",
+          "last": "Popov",
+          "nat": "BUL"
+        },
+        {
+          "rank": 11,
+          "first": "Oscar Andreas",
+          "last": "Sandvik",
+          "nat": "NOR"
+        },
+        {
+          "rank": 12,
+          "first": "Tanguy",
+          "last": "Nef",
+          "nat": "SUI"
+        },
+        {
+          "rank": 13,
+          "first": "Linus",
+          "last": "Strasser",
+          "nat": "GER"
+        },
+        {
+          "rank": 14,
+          "first": "Shiro",
+          "last": "Aihara",
+          "nat": "JPN"
+        },
+        {
+          "rank": 15,
+          "first": "Billy",
+          "last": "Major",
+          "nat": "GBR"
+        },
+        {
+          "rank": 16,
+          "first": "Daniel",
+          "last": "Yule",
+          "nat": "SUI"
+        },
+        {
+          "rank": 17,
+          "first": "Gustav",
+          "last": "Wissting",
+          "nat": "SWE"
+        },
+        {
+          "rank": 18,
+          "first": "Timon",
+          "last": "Haugan",
+          "nat": "NOR"
+        },
+        {
+          "rank": 19,
+          "first": "Henrik",
+          "last": "Kristoffersen",
+          "nat": "NOR"
+        },
+        {
+          "rank": 20,
+          "first": "Auguste",
+          "last": "Aulnette",
+          "nat": "FRA"
+        },
+        {
+          "rank": 21,
+          "first": "Liam",
+          "last": "Wallace",
+          "nat": "CAN"
+        },
+        {
+          "rank": 22,
+          "first": "Johannes",
+          "last": "Strolz",
+          "nat": "AUT"
+        }
+      ]
     }
-   ]
-  },
-  {
-   "id": "2026-10-25-m-riesenslalom-solden",
-   "date": "2026-10-25",
-   "place": "Sölden",
-   "disc": "Riesenslalom",
-   "g": "m",
-   "source": "https://www.fis-ski.com",
-   "results": [
-    {
-     "rank": 1,
-     "first": "Lucas",
-     "last": "Pinheiro Braathen",
-     "nat": "BRA"
-    },
-    {
-     "rank": 2,
-     "first": "Loïc",
-     "last": "Meillard",
-     "nat": "SUI"
-    },
-    {
-     "rank": 3,
-     "first": "Marco",
-     "last": "Odermatt",
-     "nat": "SUI"
-    },
-    {
-     "rank": 4,
-     "first": "River",
-     "last": "Radamus",
-     "nat": "USA"
-    },
-    {
-     "rank": 5,
-     "first": "Raphael",
-     "last": "Haaser",
-     "nat": "AUT"
-    },
-    {
-     "rank": 6,
-     "first": "Fabian",
-     "last": "Gratz",
-     "nat": "GER"
-    },
-    {
-     "rank": 7,
-     "first": "Alex",
-     "last": "Vinatzer",
-     "nat": "ITA"
-    },
-    {
-     "rank": 8,
-     "first": "Eirik Hystad",
-     "last": "Solberg",
-     "nat": "NOR"
-    },
-    {
-     "rank": 9,
-     "first": "Leo",
-     "last": "Anguenot",
-     "nat": "FRA"
-    },
-    {
-     "rank": 10,
-     "first": "Patrick",
-     "last": "Feurstein",
-     "nat": "AUT"
-    },
-    {
-     "rank": 11,
-     "first": "Stefan",
-     "last": "Brennsteiner",
-     "nat": "AUT"
-    },
-    {
-     "rank": 12,
-     "first": "Freddy",
-     "last": "Carrick-Smith",
-     "nat": "GBR"
-    },
-    {
-     "rank": 13,
-     "first": "Thibaut",
-     "last": "Favrot",
-     "nat": "FRA"
-    },
-    {
-     "rank": 14,
-     "first": "Rasmus",
-     "last": "Bakkevig",
-     "nat": "NOR"
-    },
-    {
-     "rank": 15,
-     "first": "Anton",
-     "last": "Grammel",
-     "nat": "GER"
-    },
-    {
-     "rank": 16,
-     "first": "Eduard",
-     "last": "Hallberg",
-     "nat": "FIN"
-    },
-    {
-     "rank": 17,
-     "first": "Joshua",
-     "last": "Sturm",
-     "nat": "AUT"
-    },
-    {
-     "rank": 18,
-     "first": "Žan",
-     "last": "Kranjec",
-     "nat": "SLO"
-    },
-    {
-     "rank": 19,
-     "first": "Filip",
-     "last": "Zubčić",
-     "nat": "CRO"
-    },
-    {
-     "rank": 20,
-     "first": "Sam",
-     "last": "Maes",
-     "nat": "BEL"
-    },
-    {
-     "rank": 21,
-     "first": "Alexander",
-     "last": "Schmid",
-     "nat": "GER"
-    },
-    {
-     "rank": 22,
-     "first": "Henrik",
-     "last": "Kristoffersen",
-     "nat": "NOR"
-    },
-    {
-     "rank": 23,
-     "first": "Thomas",
-     "last": "Tumler",
-     "nat": "SUI"
-    },
-    {
-     "rank": 24,
-     "first": "Alban",
-     "last": "Elezi Cannaferina",
-     "nat": "FRA"
-    },
-    {
-     "rank": 25,
-     "first": "Lenz",
-     "last": "Haechler",
-     "nat": "SUI"
-    },
-    {
-     "rank": 26,
-     "first": "Hans",
-     "last": "Grahl-Madsen",
-     "nat": "NOR"
-    }
-   ]
-  },
-  {
-   "id": "2026-11-14-w-slalom-levi",
-   "date": "2026-11-14",
-   "place": "Levi",
-   "disc": "Slalom",
-   "g": "w",
-   "source": "https://www.ski-db.com/db/27/95202701wc.php",
-   "results": [
-    {
-     "rank": 1,
-     "first": "Emma",
-     "last": "Aicher",
-     "nat": "GER"
-    },
-    {
-     "rank": 2,
-     "first": "Lara",
-     "last": "Colturi",
-     "nat": "ALB"
-    },
-    {
-     "rank": 3,
-     "first": "Katharina",
-     "last": "Truppe",
-     "nat": "AUT"
-    },
-    {
-     "rank": 4,
-     "first": "Zrinka",
-     "last": "Ljutić",
-     "nat": "CRO"
-    },
-    {
-     "rank": 5,
-     "first": "Anna",
-     "last": "Swenn Larsson",
-     "nat": "SWE"
-    },
-    {
-     "rank": 6,
-     "first": "Marion",
-     "last": "Chevrier",
-     "nat": "FRA"
-    },
-    {
-     "rank": 7,
-     "first": "Marie",
-     "last": "Lamure",
-     "nat": "FRA"
-    },
-    {
-     "rank": 8,
-     "first": "Madison",
-     "last": "Hoffman",
-     "nat": "AUS"
-    },
-    {
-     "rank": 9,
-     "first": "Katharina",
-     "last": "Huber",
-     "nat": "AUT"
-    },
-    {
-     "rank": 10,
-     "first": "Wendy",
-     "last": "Holdener",
-     "nat": "SUI"
-    },
-    {
-     "rank": 11,
-     "first": "Camille",
-     "last": "Rast",
-     "nat": "SUI"
-    },
-    {
-     "rank": 12,
-     "first": "Dzenifera",
-     "last": "Germane",
-     "nat": "LAT"
-    },
-    {
-     "rank": 13,
-     "first": "Sara",
-     "last": "Hector",
-     "nat": "SWE"
-    },
-    {
-     "rank": 14,
-     "first": "Aline",
-     "last": "Höpli",
-     "nat": "SUI"
-    },
-    {
-     "rank": 15,
-     "first": "AJ",
-     "last": "Hurt",
-     "nat": "USA"
-    },
-    {
-     "rank": 16,
-     "first": "Petra",
-     "last": "Vlhová",
-     "nat": "SVK"
-    },
-    {
-     "rank": 17,
-     "first": "Neja",
-     "last": "Dvornik",
-     "nat": "SLO"
-    },
-    {
-     "rank": 18,
-     "first": "Lena",
-     "last": "Dürr",
-     "nat": "GER"
-    },
-    {
-     "rank": 19,
-     "first": "Beatrice",
-     "last": "Sola",
-     "nat": "ITA"
-    },
-    {
-     "rank": 20,
-     "first": "Lara",
-     "last": "Della Mea",
-     "nat": "ITA"
-    },
-    {
-     "rank": 21,
-     "first": "Charlotte",
-     "last": "Lingg",
-     "nat": "LIE"
-    },
-    {
-     "rank": 22,
-     "first": "Laurence",
-     "last": "St-Germain",
-     "nat": "CAN"
-    },
-    {
-     "rank": 23,
-     "first": "Valentina",
-     "last": "Rings-Wanner",
-     "nat": "AUT"
-    },
-    {
-     "rank": 24,
-     "first": "Martina",
-     "last": "Peterlini",
-     "nat": "ITA"
-    },
-    {
-     "rank": 25,
-     "first": "Franziska",
-     "last": "Gritsch",
-     "nat": "AUT"
-    },
-    {
-     "rank": 26,
-     "first": "Caitlin",
-     "last": "McFarlane",
-     "nat": "FRA"
-    },
-    {
-     "rank": 27,
-     "first": "Hanna",
-     "last": "Aronsson Elfman",
-     "nat": "SWE"
-    }
-   ]
-  }
- ]
+  ]
 }
