@@ -73,6 +73,12 @@ async function load() {
       else if (S.me.is_admin) S.admin = await rpc('admin_state', { p_token: S.token });
     }
     if (!S.infoLoaded) { try { S.info = await (await fetch('data/athletes.json?v=1')).json(); S.infoLoaded = true; } catch (e) { } }
+    try { S.cal = await (await fetch('data/calendar.json?d=' + new Date().toISOString().slice(0, 13))).json(); } catch (e) { S.cal = S.cal || null; }
+    try {
+      const D = { races: S.races, results: S.results, own: S.own, prp: S.prp, players: S.players, transfers: S.transfers };
+      S.B = window.SFStats.build(D); S.form = window.SFStats.formMap(D, 3); S.D = D;
+      if (S.ui.week == null || !S.B.weeks[S.ui.week]) S.ui.week = S.B.weeks.length - 1;
+    } catch (e) { S.B = null; S.form = {}; console.error(e); }
     S.err = null; S.loaded = true;
   } catch (e) { S.err = e.message; S.loaded = true; }
   render();
@@ -94,7 +100,16 @@ const aHtml = (id, opts) => { const a = A(id); return `<span class="ath" ${opts 
 const phase = () => S.set.draft_done ? 'season' : S.set.order_drawn ? 'drawn' : (Date.now() > new Date(S.set.reg_deadline).getTime() ? 'closed' : 'reg');
 const currentRoster = pid => S.own.filter(o => o.player_id === pid && !o.to_ts).map(o => o.athlete_id);
 const ownerNow = aid => { const o = S.own.find(o => o.athlete_id === aid && !o.to_ts); return o ? o.player_id : null; };
-function ownerAt(aid, date) { const t = raceStart(date); const o = S.own.find(o => o.athlete_id === aid && new Date(o.from_ts).getTime() <= t && (!o.to_ts || new Date(o.to_ts).getTime() > t)); return o ? o.player_id : null; }
+const ownerAt = (aid, date) => window.SFStats.ownerAt(S.own, aid, date);
+const pObj = id => S.players.find(x => x.id === id) || {};
+const team = id => pObj(id).team_name || '';
+const pInit = n => { const w = String(n || '?').trim().split(/\s+/); return ((w[0] || '')[0] || '') + ((w[1] || '')[0] || (w[0] || '')[1] || ''); };
+const SLOT = ['#3987e5', '#d95926', '#199e70', '#c98500', '#d55181', '#0ca30c', '#9085e9', '#e66767'];
+const pColor = id => { const p = pObj(id); const i = (p.draft_pos || 0) - 1; return i >= 0 && i < SLOT.length ? SLOT[i] : '#6E6E7A'; };
+const provRaces = () => S.races.filter(r => r.counts && r.provisional && S.results.some(x => x.race_id === r.id));
+const provFor = pid => provRaces().some(r => S.prp.some(x => x.race_id === r.id && x.player_id === pid && x.pts > 0));
+const awIcon = k => window.SFStats.AW[k][0];
+const awName = k => window.SFStats.AW[k][1];
 const ownedPts = (pid, aid) => { const x = S.owned.find(o => o.player_id === pid && o.athlete_id === aid); return x ? x.pts : 0; };
 const seasonPts = aid => S.results.filter(r => { const rc = S.races.find(x => x.id === r.race_id); return rc && rc.counts && r.athlete_id === aid; }).reduce((s, r) => s + r.pts, 0);
 function lastDelta() {
@@ -113,6 +128,7 @@ const I = {
   draft: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>',
   kader: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6"/></svg>',
   rennen: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-12 4 6 3-4 5 10z"/></svg>',
+  kalender: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h2M14 14h2M8 17h2"/></svg>',
   admin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>',
   star: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>',
   starOn: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>',
@@ -126,10 +142,11 @@ function render() {
   const app = $('#app');
   if (!S.loaded) return;
   if (joinCode && !S.me) { app.innerHTML = vJoin(); return; }
-  const tabs = [['tabelle', 'Tabelle'], ['draft', 'Draft'], ['kader', 'Kader'], ['rennen', 'Rennen']];
+  const tabs = S.set.draft_done ? [['tabelle', 'Tabelle'], ['kader', 'Kader'], ['rennen', 'Rennen'], ['kalender', 'Kalender']]
+    : [['tabelle', 'Tabelle'], ['draft', 'Draft'], ['kader', 'Kader'], ['rennen', 'Rennen'], ['kalender', 'Kalender']];
   if (S.me && S.me.is_admin) tabs.push(['admin', 'Admin']);
-  if (!tabs.some(t => t[0] === S.ui.tab)) S.ui.tab = 'tabelle';
-  const views = { tabelle: vTable, draft: vDraft, kader: vKader, rennen: vRaces, admin: vAdmin };
+  if (!tabs.some(t => t[0] === S.ui.tab) && S.ui.tab !== 'draft') S.ui.tab = 'tabelle';
+  const views = { tabelle: vTable, draft: vDraft, kader: vKader, rennen: vRaces, kalender: vCalendar, admin: vAdmin };
   app.innerHTML = `<div class="wrap">${vHeader()}${S.err ? `<div class="notice err">${esc(S.err)}</div>` : ''}<main class="stack">${views[S.ui.tab]()}</main></div>
   <nav class="tabs" aria-label="Bereiche"><div class="in">${tabs.map(([k, l]) => `<button data-tab="${k}" ${S.ui.tab === k ? 'aria-current="page"' : ''}>${I[k]}${l}</button>`).join('')}</div></nav>`;
 }
@@ -140,9 +157,9 @@ function vHeader() {
   else if (ph === 'closed') st = `Anmeldung geschlossen · Auslosung <b>${fmtDT(S.set.order_draw_at)}</b>`;
   else if (ph === 'drawn') st = `Draft läuft automatisch am <b>${fmtDT(S.set.draft_at)}</b>`;
   else { const nt = nextTransferRun(); st = `Saison läuft · nächster Transfer <b>${nt ? fmtDT(nt) : 'Mo 12:00'}</b>`; }
-  const titles = { tabelle: ph === 'season' ? 'Tabelle' : 'Mitspieler', draft: 'Draft', kader: 'Mein Kader', rennen: 'Rennen', admin: 'Admin' };
+  const titles = { tabelle: ph === 'season' ? 'Tabelle' : 'Mitspieler', draft: 'Draft', kader: 'Mein Kader', rennen: 'Rennen', kalender: 'Kalender', admin: 'Admin' };
   return `<header class="top"><img src="img/logo.jpg" alt="Ski-Fantasy" width="92" height="85"><div class="grow"><div class="eyebrow">Weltcup 2026/27</div><h1 class="gl">${titles[S.ui.tab]}</h1></div>
-    ${S.me ? `<div class="who"><div class="eyebrow">Du bist</div><div class="d" style="font-size:18px;font-weight:700">${esc(S.me.name)}</div></div>` : ''}</header>
+    ${S.me ? `<div class="who"><div class="eyebrow">Du bist</div><div class="d" style="font-size:18px;font-weight:700">${esc(S.me.name)}</div>${team(S.me.id) ? `<div class="tiny muted">${esc(team(S.me.id))}</div>` : ''}</div>` : ''}</header>
     <div class="gates" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="status">${st}</div>`;
 }
 
@@ -166,23 +183,121 @@ function vTable() {
     return out + vRulesCard();
   }
   const st = sortedStandings(); const { date, d } = lastDelta();
-  const top = st.slice(0, 3);
-  const pod = i => top[i] ? `<div class="p${i + 1}"><div class="nm">${esc(top[i].name)}</div><div class="num pts">${fmtN(top[i].total)}</div><div class="blk">${i + 1}</div></div>` : '<div></div>';
-  out += `<section class="card"><div class="podium">${pod(1)}${pod(0)}${pod(2)}</div>
-    <div class="list">${st.map((x, i) => {
-      const open = S.ui.open === x.player_id;
+  const rk = {}; st.forEach((x, i) => rk[x.player_id] = i > 0 && x.total === st[i - 1].total ? rk[st[i - 1].player_id] : i + 1);
+  const prov = provRaces(); const star = pid => prov.length && provFor(pid) ? '<sup class="prov" title="enthält provisorische Resultate">*</sup>' : '';
+  const lw = S.B && S.B.weeks.length ? S.B.weeks[S.B.weeks.length - 1] : null;
+  const icons = pid => lw ? lw.awards.filter(a => a.pid === pid).map(a => `<span class="aw" title="${esc(awName(a.k))}${lw.complete ? '' : ' (vorläufig)'}">${awIcon(a.k)}</span>`).join('') : '';
+  out += `<section class="card">${vPodium(st.slice(0, 3), star)}
+    <div class="list">${st.map(x => {
+      const open = S.ui.open === x.player_id; const r = rk[x.player_id];
       return `<div class="item ${S.me && x.player_id === S.me.id ? 'me-row' : ''}" data-act="openP" data-id="${x.player_id}" style="cursor:pointer">
-        <span class="badge ${i < 3 ? 'g' + (i + 1) : ''}">${i + 1}</span><div class="grow" style="font-weight:600">${esc(x.name)}</div>
-        <span class="small" style="color:var(--ok)">${date ? '+' + (d[x.player_id] || 0) : ''}</span><span class="num" style="font-size:20px;width:70px;text-align:right">${fmtN(x.total)}</span></div>
+        <span class="badge ${r <= 3 ? 'g' + r : ''}">${r}</span><div class="grow"><div style="font-weight:600">${esc(x.name)} ${icons(x.player_id)}</div>${team(x.player_id) ? `<div class="tiny muted tm">${esc(team(x.player_id))}</div>` : ''}</div>
+        <span class="small" style="color:var(--ok)">${date ? '+' + (d[x.player_id] || 0) : ''}</span><span class="num" style="font-size:20px;width:74px;text-align:right">${fmtN(x.total)}${star(x.player_id)}</span></div>
         ${open ? `<div style="padding:4px 0 12px">${rosterGrid(x.player_id)}</div>` : ''}`;
     }).join('')}</div>
-    <div class="tiny muted">${date ? 'Grüne Zahl: Punkte vom letzten Renntag (' + fmtD(date) + '). ' : ''}Tippe auf einen Namen für den Kader.</div></section>`;
+    <div class="tiny muted">${date ? 'Grüne Zahl: Punkte vom letzten Renntag (' + fmtD(date) + '). ' : ''}Tippe auf einen Namen für den Kader.${lw && lw.awards.length ? ' Symbole: Auszeichnungen der letzten Woche.' : ''}</div>
+    ${prov.length ? `<div class="notice"><b>* Provisorisch:</b> ${prov.map(r => esc(r.place + ' ' + r.disc + ' ' + (r.g === 'm' ? 'M' : 'F'))).join(', ')}. Die Punkte stammen aus der inoffiziellen Rangliste und werden spätestens Montag früh mit der offiziellen FIS-Liste abgeglichen.</div>` : ''}</section>`;
+  out += vWeek() + vChart() + vMedals();
   if (S.transfers.length) {
     const lastRun = S.transfers[0].run_at; const tr = S.transfers.filter(t => t.run_at === lastRun);
     out += `<section class="card"><div class="between"><h3>Letzte Transfers</h3><span class="tiny muted">${fmtDT(lastRun)}</span></div>
-      <div class="list">${tr.map(t => `<div class="item small"><div class="grow"><b>${esc(pName(t.player_id))}</b><br><span style="color:var(--ok)">+</span> ${aHtml(t.in_id)} &nbsp; <span style="color:var(--women)">−</span> ${aHtml(t.out_id)}</div></div>`).join('')}</div></section>`;
+      <div class="list">${tr.map(t => `<div class="item small"><div class="grow"><b>${esc(pName(t.player_id))}</b><div class="trx"><span class="sg ok">+</span>${aHtml(t.in_id)}</div><div class="trx"><span class="sg no">−</span>${aHtml(t.out_id)}</div></div></div>`).join('')}</div></section>`;
   }
+  out += `<button class="btn ghost" data-tab="draft">Draft-Resultat ansehen</button>`;
   return out + vRulesCard();
+}
+
+/* ----- Podest ----- */
+function medal(n) {
+  const c = { 1: ['#FFF0A8', '#F2C230', '#9C700A'], 2: ['#FFFFFF', '#C9CBD3', '#6F727E'], 3: ['#FFD2A6', '#D08A4E', '#7E4519'] }[n];
+  return `<svg class="medal" viewBox="0 0 48 66" width="40" height="55" aria-hidden="true"><defs><radialGradient id="mg${n}" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="${c[0]}"/><stop offset=".5" stop-color="${c[1]}"/><stop offset="1" stop-color="${c[2]}"/></radialGradient></defs>
+    <path d="M9 0h11l9 25H18z" fill="#22E3E8"/><path d="M39 0H28l-9 25h11z" fill="#FE2C55"/><rect x="15" y="22" width="18" height="6" rx="2" fill="${c[2]}"/>
+    <circle cx="24" cy="45" r="19" fill="url(#mg${n})"/><circle cx="24" cy="45" r="14.5" fill="none" stroke="${c[2]}" stroke-opacity=".6" stroke-width="1.4"/>
+    <text x="24" y="52" text-anchor="middle" font-family="Saira Condensed,Arial Narrow,sans-serif" font-weight="800" font-size="20" fill="${n === 2 ? '#2A2A33' : '#1A1400'}">${n}</text></svg>`;
+}
+function vPodium(top, star) {
+  const col = (x, n) => x ? `<div class="pc p${n}">${medal(n)}<span class="pav">${esc(pInit(x.name).toUpperCase())}</span>
+      <div class="nm">${esc(x.name)}</div>${team(x.player_id) ? `<div class="tm">${esc(team(x.player_id))}</div>` : '<div class="tm">&nbsp;</div>'}
+      <div class="num pts">${fmtN(x.total)}${star(x.player_id)}</div><div class="step"><span>${n}</span></div></div>` : '<div class="pc"></div>';
+  return `<div class="pod" role="img" aria-label="Podest: ${top.map((x, i) => (i + 1) + '. ' + esc(x.name) + ' ' + x.total).join(', ')}">${col(top[1], 2)}${col(top[0], 1)}${col(top[2], 3)}</div>`;
+}
+
+/* ----- Wochenwertung ----- */
+const fmtRange = (a, b) => { const x = new Date(a + 'T12:00:00Z'), y = new Date(b + 'T12:00:00Z'); return `${x.getUTCDate()}.${x.getUTCMonth() + 1}. – ${y.getUTCDate()}.${y.getUTCMonth() + 1}.`; };
+function awText(a) {
+  const n = esc(pName(a.pid)); const at = a.aid ? `${esc(A(a.aid).first)} ${esc(A(a.aid).last)}` : '';
+  switch (a.k) {
+    case 'win': return `${n} mit ${a.val} Punkten`;
+    case 'lantern': return `${n} mit ${a.val} Punkten`;
+    case 'riser': return `${n}, von Rang ${a.from} auf ${a.to}`;
+    case 'transfer': return `${n}: ${at} holte ${a.val} Punkte`;
+    case 'flop': return `${n} gab ${at} ab, der/die danach ${a.val} Punkte holte`;
+    case 'streak': return `${n}, ${a.val}. Woche in Folge in den Top 3`;
+  }
+  return n;
+}
+function vWeek() {
+  if (!S.B || !S.B.weeks.length) return '';
+  const i = Math.max(0, Math.min(S.ui.week, S.B.weeks.length - 1)); const w = S.B.weeks[i];
+  const ids = S.B.ids.slice().sort((a, b) => w.pts[b] - w.pts[a] || (pObj(a).draft_pos || 99) - (pObj(b).draft_pos || 99));
+  return `<section class="card"><div class="between"><h3>Wochenwertung</h3>
+      <div class="row" style="gap:6px"><button class="icon-btn sm" data-act="wk" data-d="-1" aria-label="Vorherige Woche" ${i === 0 ? 'disabled' : ''}>‹</button>
+      <span class="small" style="font-weight:700">${fmtRange(w.start, w.end)}</span>
+      <button class="icon-btn sm" data-act="wk" data-d="1" aria-label="Nächste Woche" ${i === S.B.weeks.length - 1 ? 'disabled' : ''}>›</button></div></div>
+    <div class="tiny muted">${w.races.map(r => esc(r.place) + ' ' + esc(r.disc) + ' ' + (r.g === 'm' ? 'M' : 'F') + (r.provisional ? '*' : '')).join(' · ')}${w.complete ? '' : ' · <b style="color:var(--gold)">läuft noch</b>'}</div>
+    <div class="list">${ids.map(id => `<div class="item small ${S.me && id === S.me.id ? 'me-row' : ''}"><span class="badge ${w.wRank[id] <= 3 && w.pts[id] > 0 ? 'g' + w.wRank[id] : ''}">${w.wRank[id]}</span><div class="grow" style="font-weight:600">${esc(pName(id))}</div><span class="num" style="font-size:18px">${w.pts[id]}</span></div>`).join('')}</div>
+    ${w.awards.length ? `<div class="awlist">${w.awards.map(a => `<div class="awi"><span class="awb">${awIcon(a.k)}</span><div class="grow"><div class="tiny" style="color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.06em">${esc(awName(a.k))}</div><div class="small">${awText(a)}</div></div></div>`).join('')}</div>
+      ${w.complete ? '' : '<div class="tiny muted">Auszeichnungen sind vorläufig, bis die Woche vorbei ist.</div>'}` : ''}
+  </section>`;
+}
+
+/* ----- Punkteverlauf ----- */
+function vChart() {
+  if (!S.B || !S.B.cum.length) return '';
+  const cum = S.B.cum; const ids = sortedStandings().map(s => s.player_id);
+  const W = 340, H = 190, L = 34, R = 10, T = 10, Bm = 26; const n = cum.length;
+  const max = Math.max(10, ...cum.map(c => Math.max(...ids.map(id => c.tot[id] || 0))));
+  const step = [10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000].find(s => max / s <= 4) || 2500; const top = Math.ceil(max / step) * step;
+  const x = i => L + (n ? i * (W - L - R) / n : 0); const y = v => T + (H - T - Bm) * (1 - v / top);
+  const sel = S.ui.chartI != null && S.ui.chartI <= n ? S.ui.chartI : null;
+  const me = S.me ? S.me.id : null;
+  const grid = []; for (let v = 0; v <= top; v += step) grid.push(`<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="#26262E" stroke-width="1"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end" class="ax">${v}</text>`);
+  const every = Math.ceil(n / 7);
+  const xl = cum.map((c, i) => (i % every === n % every || i === n - 1) ? `<text x="${x(i + 1)}" y="${H - 8}" text-anchor="middle" class="ax">${new Date(c.race.date + 'T12:00:00Z').getUTCDate()}.${new Date(c.race.date + 'T12:00:00Z').getUTCMonth() + 1}.</text>` : '').join('');
+  const lines = ids.slice().sort((a, b) => (a === me) - (b === me)).map(id => {
+    const pts = [[x(0), y(0)]].concat(cum.map((c, i) => [x(i + 1), y(c.tot[id] || 0)]));
+    const last = pts[pts.length - 1];
+    return `<polyline points="${pts.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ')}" fill="none" stroke="${pColor(id)}" stroke-width="${id === me ? 3.2 : 2}" stroke-linejoin="round" stroke-linecap="round" ${me && id !== me ? 'opacity=".85"' : ''}/>
+      <circle cx="${last[0]}" cy="${last[1]}" r="${id === me ? 5 : 4}" fill="${pColor(id)}" stroke="#121216" stroke-width="2"/>`;
+  }).join('');
+  const cross = sel != null ? `<line x1="${x(sel)}" x2="${x(sel)}" y1="${T}" y2="${H - Bm}" stroke="#8E8E9A" stroke-width="1" stroke-dasharray="3 3"/>` +
+    ids.map(id => `<circle cx="${x(sel)}" cy="${y(sel ? cum[sel - 1].tot[id] || 0 : 0)}" r="4.5" fill="${pColor(id)}" stroke="#121216" stroke-width="2"/>`).join('') : '';
+  const meLbl = me && ids.includes(me) ? (() => { const v = cum[n - 1].tot[me] || 0; return `<text x="${x(n) - 8}" y="${y(v) - 9}" text-anchor="end" class="lbl">Du</text>`; })() : '';
+  const tip = sel != null && sel > 0 ? (() => { const c = cum[sel - 1]; const o = ids.slice().sort((a, b) => (c.tot[b] || 0) - (c.tot[a] || 0));
+    return `<div class="tip"><div class="tiny" style="font-weight:700">${fmtD(c.race.date)} · ${esc(c.race.place)} ${esc(c.race.disc)} ${c.race.g === 'm' ? 'M' : 'F'}${c.race.provisional ? '*' : ''}</div>${o.map(id => `<div class="trow"><i style="background:${pColor(id)}"></i><span class="grow">${esc(pName(id))}</span><b class="num">${c.tot[id] || 0}</b></div>`).join('')}</div>`; })() : '';
+  return `<section class="card"><div class="between"><h3>Punkteverlauf</h3><span class="tiny muted">${n} Rennen · antippen für Werte</span></div>
+    <svg class="chart" viewBox="0 0 ${W} ${H}" data-act="chart" data-n="${n}" data-l="${L}" data-w="${W - L - R}" role="img" aria-label="Gesamtpunkte aller Mitspieler nach jedem Rennen">${grid.join('')}${xl}${lines}${cross}${meLbl}</svg>
+    ${tip}
+    <div class="legend">${ids.map(id => `<span class="lg ${id === me ? 'me' : ''}"><i style="background:${pColor(id)}"></i>${esc(pName(id))}</span>`).join('')}</div>
+    <details><summary class="tiny muted" style="text-decoration:underline">Als Tabelle anzeigen</summary><div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Rennen</th>${ids.map(id => `<th>${esc(pName(id))}</th>`).join('')}</tr></thead><tbody>${cum.map(c => `<tr><td>${fmtD(c.race.date)} ${esc(c.race.place)}</td>${ids.map(id => `<td class="num">${c.tot[id] || 0}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details></section>`;
+}
+
+/* ----- Medaillenspiegel & Kugeln ----- */
+function vMedals() {
+  if (!S.B) return '';
+  const K = window.SFStats.WEEK_AWARDS; const M = S.B.medals;
+  const ids = S.B.ids.slice().sort((a, b) => { for (const k of K.filter(k => k !== 'lantern')) { if (M[b][k] !== M[a][k]) return M[b][k] - M[a][k]; } return M[a].lantern - M[b].lantern; });
+  const any = ids.some(id => K.some(k => M[id][k]));
+  const kug = (k, lead, map) => `<div class="kug"><span class="awb big">${awIcon(k)}</span><div class="grow"><div class="tiny" style="color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.06em">${awName(k)}</div>
+      <div style="font-weight:700">${lead.ids.length ? lead.ids.map(pName).map(esc).join(', ') : '–'}</div>
+      <div class="tiny muted">${S.B.ids.slice().sort((a, b) => map[b] - map[a]).slice(0, 3).map(id => esc(pName(id)) + ' ' + map[id]).join(' · ')}</div></div><span class="num" style="font-size:22px">${lead.v || 0}</span></div>`;
+  return `<section class="card"><div class="between"><h3>Medaillenspiegel</h3><span class="tiny muted">keine Punkte, nur Ruhm</span></div>
+    ${any ? `<div style="overflow-x:auto"><table class="tbl med"><thead><tr><th></th>${K.map(k => `<th title="${esc(awName(k))}">${awIcon(k)}</th>`).join('')}</tr></thead>
+      <tbody>${ids.map(id => `<tr class="${S.me && id === S.me.id ? 'me-row' : ''}"><td>${esc(pName(id))}</td>${K.map(k => `<td class="num ${M[id][k] ? '' : 'z'}">${M[id][k] || '·'}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
+      : '<div class="small muted">Die ersten Auszeichnungen gibt es, sobald die erste Woche abgeschlossen ist.</div>'}
+    <div class="grid2" style="gap:8px">${kug('speed', S.B.speedLead, S.B.speed)}${kug('tech', S.B.techLead, S.B.tech)}</div>
+    <div class="tiny muted">Kugeln: laufende Nebenwertung, vergeben am Saisonende. Kombination und Parallel zählen nur für die Gesamtwertung.</div>
+    <details><summary class="tiny muted" style="text-decoration:underline">Was bedeuten die Symbole?</summary><div class="list">${K.concat(['speed', 'tech']).map(k => `<div class="item small"><span class="awb">${awIcon(k)}</span><div class="grow"><b>${awName(k)}</b><div class="tiny muted">${window.SFStats.AW[k][2]}</div></div></div>`).join('')}</div></details></section>`;
 }
 function rosterGrid(pid) {
   const ids = currentRoster(pid);
@@ -251,6 +366,9 @@ function vKader() {
       <span class="badge ${i >= 0 ? g : ''}">${i >= 0 ? i + 1 : '·'}</span><span class="grow small">${aHtml(a, 'nonat')}</span><span class="num small muted">${ownedPts(me, a)}</span></button>`; }).join('');
   const myTr = S.transfers.filter(t => t.player_id === me);
   return `<section class="card"><div class="between"><div><h3>Rang ${rank} von ${S.standings.length}</h3></div><div style="text-align:right"><div class="eyebrow">Punkte</div><div class="num" style="font-size:30px;line-height:1">${fmtN(tot)}</div></div></div>${rosterGrid(me)}</section>
+  <section class="card"><h3>Teamname</h3><div class="row"><input id="teamName" type="text" maxlength="24" placeholder="z.B. Odermatt-Ultras" value="${esc(S.me.team_name || '')}" aria-label="Teamname" class="grow"><button class="btn" data-act="saveTeam">Speichern</button></div>
+    <div class="tiny muted">Erscheint in der Tabelle und in den News. Max. 24 Zeichen, jederzeit änderbar.</div></section>
+  ${vHot()}
   <section class="card"><div class="between"><h2>Transfers</h2><span class="tiny muted">${nt ? fmtDT(nt) : ''}</span></div>
     <div class="small muted">Max. ${S.set.max_transfers} pro Woche. Du bist aktuell als <b style="color:var(--fg)">${tOrd}.</b> am Zug (der Letzte der Tabelle zuerst).</div>
     ${warn}
@@ -264,15 +382,77 @@ function vKader() {
     <div class="seg" role="group" aria-label="Geschlecht"><button class="m" data-act="tg" data-g="m" aria-pressed="${S.ui.tg === 'm'}">Männer</button><button class="w" data-act="tg" data-g="w" aria-pressed="${S.ui.tg === 'w'}">Frauen</button></div>
     <label>Suchen<input id="tq" type="search" placeholder="Name oder Nation" value="${esc(S.ui.tq)}" autocomplete="off"></label>
     <div class="list" id="tpool">${freePool()}</div></section>
-  ${myTr.length ? `<section class="card"><h3>Meine Transfers</h3><div class="list">${myTr.map(t => `<div class="item small"><div class="grow"><span style="color:var(--ok)">+</span> ${aHtml(t.in_id)}<br><span style="color:var(--women)">−</span> ${aHtml(t.out_id)}</div><span class="tiny muted">${fmtDT(t.run_at)}</span></div>`).join('')}</div></section>` : ''}`;
+  ${myTr.length ? `<section class="card"><h3>Meine Transfers</h3><div class="list">${myTr.map(t => `<div class="item small"><div class="grow"><div class="trx"><span class="sg ok">+</span>${aHtml(t.in_id)}</div><div class="trx"><span class="sg no">−</span>${aHtml(t.out_id)}</div></div><span class="tiny muted">${fmtDT(t.run_at)}</span></div>`).join('')}</div></section>` : ''}`;
 }
 function freePool() {
   const g = S.ui.tg; const q = norm(S.ui.tq).trim(); const owned = new Set(S.own.filter(o => !o.to_ts).map(o => o.athlete_id));
   const wants = (S.me.transfer_wish || {}).wants || [];
   const list = Object.values(S.A).filter(a => a.g === g && !owned.has(a.id) && (!q || norm(a.first + ' ' + a.last + ' ' + a.nat).includes(q)))
     .filter(a => a.status !== 'retired').map(a => ({ a, sp: seasonPts(a.id) })).sort((x, y) => (blocked(x.a) - blocked(y.a)) || y.sp - x.sp || y.a.prev - x.a.prev).slice(0, 60);
-  return list.map(({ a, sp }) => { const on = wants.includes(a.id); return `<div class="item"><div class="grow">${aHtml(a.id)}<div class="tiny muted">${sp} Pkt. diese Saison · ${fmtN(a.prev)} letzte</div></div>
+  return list.map(({ a, sp }) => { const on = wants.includes(a.id); const f = S.form[a.id] || 0; return `<div class="item"><div class="grow">${aHtml(a.id)}<div class="tiny muted">${f ? `<b style="color:var(--gold)">Form ${f}</b> · ` : ''}${sp} Pkt. diese Saison · ${fmtN(a.prev)} letzte</div></div>
     <button class="icon-btn ${on ? 'on' : ''}" data-act="tAdd" data-id="${esc(a.id)}" aria-label="${on ? 'Gewünscht' : 'Auf Transferliste'}" ${on ? 'disabled' : ''}>${on ? I.starOn : I.plus}</button></div>`; }).join('') || '<div class="item muted small">Keine freien Athleten gefunden.</div>';
+}
+
+function vHot() {
+  const owned = new Set(S.own.filter(o => !o.to_ts).map(o => o.athlete_id)); const wants = (S.me.transfer_wish || {}).wants || [];
+  const col = g => {
+    const l = Object.values(S.A).filter(a => a.g === g && !owned.has(a.id) && !blocked(a) && (S.form[a.id] || 0) > 0).sort((x, y) => S.form[y.id] - S.form[x.id] || seasonPts(y.id) - seasonPts(x.id)).slice(0, 5);
+    return l.map(a => { const on = wants.includes(a.id); return `<div class="item small"><span class="hotn num">${S.form[a.id]}</span><div class="grow">${aHtml(a.id)}</div>
+      <button class="icon-btn ${on ? 'on' : ''}" data-act="tAdd" data-id="${esc(a.id)}" aria-label="${on ? 'Gewünscht' : 'Auf Transferliste'}" ${on ? 'disabled' : ''}>${on ? I.starOn : I.plus}</button></div>`; }).join('') || '<div class="item muted small">Niemand mit Punkten frei.</div>';
+  };
+  return `<section class="card"><h3>🔥 Heiss auf dem Markt</h3>
+    <div class="grid2"><div><div class="tiny" style="color:var(--men);font-weight:700;margin-bottom:2px">Männer</div><div class="list">${col('m')}</div></div><div><div class="tiny" style="color:var(--women);font-weight:700;margin-bottom:2px">Frauen</div><div class="list">${col('w')}</div></div></div>
+    <div class="tiny muted">Zahl = Form (Punkte aus den letzten 3 Rennen). Nur freie Athleten. Mit + auf deine Transferliste.</div></section>`;
+}
+
+/* ----- Kalender ----- */
+const DISC_CODE = { 'Abfahrt': 'DH', 'Super-G': 'SG', 'Riesenslalom': 'GS', 'Slalom': 'SL' };
+const DISC_SHORT = { 'Abfahrt': 'AB', 'Super-G': 'SG', 'Riesenslalom': 'RS', 'Slalom': 'SL', 'Kombination': 'KO', 'Parallel': 'PA' };
+const calStart = r => { const [h, m] = (r.t1 || '12:00').split(':').map(Number); return new Date(`${r.date}T${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00+01:00`).getTime(); };
+const calEnd = r => { const t2 = r.t2 || r.t1 || '12:00'; const [h, m] = t2.split(':').map(Number); return new Date(`${r.date}T${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00+01:00`).getTime() + (r.t2 ? 75 : 105) * 60e3; };
+const calRace = r => S.races.find(x => x.date === r.date && x.g === r.g && x.disc === r.disc);
+function myFor(r) {
+  if (!S.me || !S.set.draft_done) return [];
+  const code = DISC_CODE[r.disc];
+  return currentRoster(S.me.id).filter(a => A(a).g === r.g).map(a => { const inf = (S.info[a] || {}).d || {}; const last = code && inf[code] ? inf[code][1] : 0;
+    const now = S.results.filter(x => x.athlete_id === a).reduce((s, x) => { const rc = S.races.find(y => y.id === x.race_id); return rc && rc.disc === r.disc && rc.counts ? s + x.pts : s; }, 0);
+    return { a, v: last + now * 2 }; }).filter(x => x.v > 0).sort((x, y) => y.v - x.v).map(x => x.a);
+}
+function countdown(ms) { if (ms <= 0) return 'läuft'; const d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4); return d ? `${d} T ${h} Std` : h ? `${h} Std ${m} Min` : `${m} Min`; }
+function vCalendar() {
+  if (!S.cal) return '<div class="notice">Kalender konnte nicht geladen werden.</div>';
+  const now = Date.now(); const f = S.ui.cf || 'all'; const past = !!S.ui.cpast;
+  const all = S.cal.races.slice().sort((a, b) => calStart(a) - calStart(b));
+  const next = all.filter(r => r.status !== 'cancelled' && calEnd(r) > now);
+  const nx = next[0]; const sameDay = nx ? next.filter(r => r.date === nx.date) : [];
+  const ics = location.origin + location.pathname.replace(/[^/]*$/, '') + 'data/calendar.ics';
+  const webcal = ics.replace(/^https?:/, 'webcal:');
+  let out = '';
+  if (nx) out += `<section class="card nextc"><div class="between"><h3>Nächstes Rennen</h3><span class="chip warn">in ${countdown(calStart(nx) - now)}</span></div>
+    ${sameDay.map(r => { const my = myFor(r); return `<div class="nx"><div class="row"><span class="dot ${r.g}" style="width:10px;height:10px"></span><div class="grow"><div class="d" style="font-size:22px;font-weight:800;text-transform:uppercase;line-height:1.05">${esc(r.place)} ${flag(r.nat)}</div>
+      <div class="small">${esc(r.disc)} ${r.g === 'm' ? 'Männer' : 'Frauen'} · ${fmtD(r.date)}${r.t1 ? ` · <b>${r.t1}</b>${r.t2 ? ' / ' + r.t2 : ''}` : ''}</div>${r.note ? `<div class="tiny muted">${esc(r.note)}</div>` : ''}</div></div>
+      ${S.me && S.set.draft_done ? `<div class="tiny muted" style="margin-top:6px">Deine Leute in dieser Disziplin (Prognose):</div><div class="row" style="flex-wrap:wrap;gap:6px 12px;margin-top:4px">${my.length ? my.map(a => aHtml(a, 'nonat')).join('') : '<span class="small muted">niemand mit Punkten in dieser Disziplin</span>'}</div>` : ''}</div>`; }).join('')}
+  </section>`;
+  out += `<section class="card"><h3>Im Handy-Kalender</h3><div class="small" style="color:var(--soft)">Abonnieren, und alle Rennen erscheinen in deinem Kalender. Verschiebungen werden automatisch nachgeführt.</div>
+    <div class="row" style="flex-wrap:wrap"><a class="btn" href="${esc(webcal)}" style="text-decoration:none">Kalender abonnieren</a><button class="btn ghost" data-act="copy" data-v="${esc(ics)}">Link kopieren</button></div>
+    <div class="tiny muted">Klappt «Abonnieren» nicht (z.B. Google Kalender): Link kopieren und in Google Kalender unter «Andere Kalender → Per URL» einfügen.</div></section>`;
+  out += `<div class="seg three" role="group" aria-label="Filter"><button data-act="cf" data-f="all" aria-pressed="${f === 'all'}" class="a">Alle</button><button class="m" data-act="cf" data-f="m" aria-pressed="${f === 'm'}">Männer</button><button class="w" data-act="cf" data-f="w" aria-pressed="${f === 'w'}">Frauen</button></div>`;
+  const list = all.filter(r => (f === 'all' || r.g === f) && (past || calEnd(r) > now - 864e5));
+  const months = {}; list.forEach(r => { const k = r.date.slice(0, 7); (months[k] = months[k] || []).push(r); });
+  const mName = k => new Intl.DateTimeFormat('de-CH', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(k + '-15T12:00:00Z'));
+  const ev = (S.cal.events || []);
+  out += Object.keys(months).sort().map(k => `<section class="card flat"><h3 style="padding-top:10px">${mName(k)}</h3><div class="list">
+    ${ev.filter(e => e.from.slice(0, 7) === k).map(e => `<div class="item small"><span class="cald">${new Date(e.from + 'T12:00:00Z').getUTCDate()}.–${new Date(e.to + 'T12:00:00Z').getUTCDate()}.</span><div class="grow"><b>${esc(e.title)}</b><div class="tiny muted">${esc(e.note || '')}</div></div></div>`).join('')}
+    ${months[k].map(r => { const done = calEnd(r) < now; const rc = calRace(r); const win = rc ? S.results.filter(x => x.race_id === rc.id).sort((a, b) => a.rank - b.rank)[0] : null; const isNext = nx && r === nx;
+      return `<div class="item small cal ${done ? 'done' : ''} ${isNext ? 'isnext' : ''}" ${rc ? `data-act="goRace" data-id="${esc(rc.id)}" style="cursor:pointer"` : ''}>
+        <span class="cald">${new Intl.DateTimeFormat('de-CH', { weekday: 'short', timeZone: 'UTC' }).format(new Date(r.date + 'T12:00:00Z'))}<br><b>${new Date(r.date + 'T12:00:00Z').getUTCDate()}.</b></span>
+        <span class="dsc ${r.g}">${DISC_SHORT[r.disc] || ''}</span>
+        <div class="grow"><div style="font-weight:600">${esc(r.place)} ${flag(r.nat)}${r.status === 'cancelled' ? ' <span class="chip no">abgesagt</span>' : ''}${r.counts === false ? ' <span class="chip">zählt nicht</span>' : ''}</div>
+          <div class="tiny muted">${esc(r.disc)} ${r.g === 'm' ? 'Männer' : 'Frauen'}${win ? ' · Sieg: ' + esc(A(win.athlete_id).last) + (rc.provisional ? '*' : '') : ''}${r.note ? ' · ' + esc(r.note) : ''}</div></div>
+        <span class="tiny" style="text-align:right;min-width:44px">${r.t1 ? `<b>${r.t1}</b>${r.t2 ? '<br>' + r.t2 : ''}` : ''}</span></div>`; }).join('')}</div></section>`).join('');
+  out += `<div class="row"><button class="btn ghost small" data-act="cpast">${past ? 'Vergangene ausblenden' : 'Vergangene Rennen zeigen'}</button></div>
+    <div class="tiny muted">${esc(S.cal.note || '')} Stand: ${esc(S.cal.updated || '')}.</div>`;
+  return out;
 }
 
 /* ----- Rennen ----- */
@@ -285,10 +465,11 @@ function vRaces() {
     return `<section class="card" style="${open ? '' : 'gap:6px'}">
       <button data-act="race" data-id="${esc(r.id)}" style="appearance:none;background:none;border:0;padding:0;text-align:left;color:inherit;cursor:pointer" aria-expanded="${open}">
         <div class="row"><span class="dot ${r.g}" style="width:10px;height:10px"></span><div class="grow"><div class="d" style="font-size:20px;font-weight:800;text-transform:uppercase">${esc(r.place)} · ${esc(r.disc)} ${r.g === 'm' ? 'Männer' : 'Frauen'}</div>
-        <div class="tiny muted">${fmtD(r.date)}${win ? ' · Sieg: ' + esc(A(win.athlete_id).first + ' ' + A(win.athlete_id).last) : ''}</div></div>${r.counts ? '' : '<span class="chip no">zählt nicht</span>'}</div></button>
+        <div class="tiny muted">${fmtD(r.date)}${win ? ' · Sieg: ' + esc(A(win.athlete_id).first + ' ' + A(win.athlete_id).last) : ''}</div></div>${r.counts ? '' : '<span class="chip no">zählt nicht</span>'}${r.provisional ? '<span class="chip warn" title="inoffizielle Rangliste, wird mit FIS abgeglichen">provisorisch*</span>' : ''}</div></button>
       ${chips.length ? `<div class="row" style="flex-wrap:wrap;gap:6px">${chips.map(c => `<span class="chip" style="color:var(--fg);text-transform:none;letter-spacing:0;font-family:var(--f-b);font-size:13px">${esc(pName(c.player_id))} <b style="color:var(--ok)">+${c.pts}</b></span>`).join('')}</div>` : ''}
       ${open ? `<div class="list">${res.map(x => { const o = r.counts ? ownerAt(x.athlete_id, r.date) : null; const mine = S.me && o === S.me.id; return `<div class="item small"><span class="badge ${x.rank <= 3 ? 'g' + x.rank : ''}">${x.rank}</span><div class="grow">${aHtml(x.athlete_id)}</div>
         <span class="tiny" style="color:${mine ? 'var(--men)' : o ? 'var(--soft)' : 'var(--dim)'}">${o ? esc(pName(o)) : (r.counts ? 'frei' : '')}</span><span class="num" style="width:34px;text-align:right">${x.pts}</span></div>`; }).join('')}</div>
+        ${r.provisional ? '<div class="notice"><b>* Provisorisch:</b> inoffizielle Rangliste. Spätestens Montag früh wird sie mit der offiziellen FIS-Liste abgeglichen. Ändert sich etwas (z.B. eine Disqualifikation), werden die Punkte automatisch korrigiert.</div>' : ''}
         ${r.source ? `<div class="tiny muted">Quelle: <a href="${esc(r.source)}" target="_blank" rel="noopener">${esc(r.source.replace(/^https?:\/\//, '').slice(0, 50))}</a></div>` : ''}` : ''}
     </section>`;
   }).join('');
@@ -304,7 +485,7 @@ function vAdmin() {
     <div class="row"><button class="btn" data-act="copy" data-v="${esc(inv)}">Link kopieren</button>${act('new_invite', 'Neuen Link erstellen', 'Der alte Einladungslink funktioniert danach nicht mehr.')}</div>
     <div class="tiny muted">Diesen Link in den Gruppenchat schicken. Jeder trägt seinen Namen ein und bekommt automatisch seinen persönlichen Link.</div></section>
   <section class="card"><div class="between"><h3>Mitspieler</h3><span class="chip">${ad.players.length}</span></div>
-    <div class="list">${ad.players.map(p => `<div class="item"><span class="badge">${p.draft_pos || '·'}</span><div class="grow"><div style="font-weight:600">${esc(p.name)}${p.is_admin ? ' <span class="chip">Admin</span>' : ''}</div><div class="tiny muted">Wunschliste: ${p.wish_m} M / ${p.wish_w} F</div></div>
+    <div class="list">${ad.players.map(p => `<div class="item"><span class="badge">${p.draft_pos || '·'}</span><div class="grow"><div style="font-weight:600">${esc(p.name)}${p.is_admin ? ' <span class="chip">Admin</span>' : ''}</div><div class="tiny muted">Wunschliste: ${p.wish_m} M / ${p.wish_w} F</div>${s.draft_done ? `<input class="adteam" data-id="${p.id}" type="text" maxlength="24" placeholder="Teamname" value="${esc(team(p.id))}" aria-label="Teamname ${esc(p.name)}" style="margin-top:6px;min-height:34px;padding:6px 10px">` : ''}</div>
       <button class="btn small ghost" data-act="copy" data-v="${esc(BASE + '?p=' + p.token)}">Link</button>
       ${!s.order_drawn && !p.is_admin ? (c === 'rm' + p.id ? `<button class="btn small danger" data-act="rm" data-id="${p.id}">Entfernen</button>` : `<button class="icon-btn" data-act="ask" data-k="rm${p.id}" aria-label="${esc(p.name)} entfernen">${I.x}</button>`) : ''}</div>`).join('')}</div>
     ${!s.order_drawn ? `<div class="row"><label class="grow">Mitspieler von Hand hinzufügen<input id="addName" type="text" maxlength="24" placeholder="Name"></label><button class="btn" data-act="addP" style="align-self:flex-end">${I.plus}</button></div>` : ''}
@@ -355,12 +536,19 @@ function vAthlete(id) {
     <div class="grid3"><div><div class="eyebrow">Besitzer</div><div style="font-weight:700;color:${own && S.me && own === S.me.id ? 'var(--men)' : 'var(--fg)'}">${S.set.draft_done ? (own ? esc(pName(own)) : 'frei') : 'Draft offen'}</div></div>
       <div><div class="eyebrow">Pkt. 26/27</div><div class="num" style="font-size:22px">${sp}</div></div>
       <div><div class="eyebrow">Gesamt 25/26</div><div class="num" style="font-size:22px">${inf.o ? inf.o[0] + '.' : '–'}</div><div class="tiny muted">${inf.o ? fmtN(inf.o[1]) + ' Pkt.' : 'keine Punkte'}</div></div></div>
+    ${S.set.draft_done ? vAthHist(id) : ''}
     <h3>Saison 2026/27</h3>
     ${groups.length ? groups.map(([d, list]) => `<div><div class="tiny" style="color:var(--soft);font-weight:700;margin:4px 0">${d}</div><div class="list">${list.map(x => `<div class="item small"><span class="badge ${x.r.rank <= 3 ? 'g' + x.r.rank : ''}">${x.r.rank}</span><div class="grow">${esc(x.race.place)}<div class="tiny muted">${fmtD(x.race.date)}${x.race.counts ? '' : ' · zählt nicht'}</div></div><span class="num">${x.r.pts}</span></div>`).join('')}</div></div>`).join('') : '<div class="small muted">Noch keine Top-30-Klassierung in dieser Saison.</div>'}
     <h3>Saison 2025/26 nach Disziplin</h3>
     <div class="list">${['DH', 'SG', 'GS', 'SL'].map(k => `<div class="item small"><div class="grow">${DCODE[k]}</div><span class="muted">${last[k] ? last[k][0] + '. Rang' : '–'}</span><span class="num" style="width:56px;text-align:right">${last[k] ? fmtN(last[k][1]) : ''}</span></div>`).join('')}</div>
     ${fisLink ? `<a class="btn ghost" href="${fisLink}" target="_blank" rel="noopener" style="text-align:center;text-decoration:none">Alle Resultate auf fis-ski.com</a>` : ''}
   </div>`;
+}
+function vAthHist(id) {
+  const h = window.SFStats.history(S.D || { own: S.own, races: S.races, results: S.results }, id); const f = S.form[id] || 0;
+  const lbl = { draft: 'Draft', transfer: 'Transfer' };
+  return `<div class="row" style="gap:8px"><span class="chip ${f ? 'warn' : ''}" style="font-size:13px">Form ${f}</span><span class="tiny muted">Punkte der letzten 3 Rennen ${A(id).g === 'w' ? 'der Frauen' : 'der Männer'}</span></div>
+    <h3>Besitzer &amp; Fantasy-Punkte</h3>${h.length ? `<div class="list">${h.map(o => `<div class="item small"><div class="grow"><b style="color:${S.me && o.player_id === S.me.id ? 'var(--men)' : 'var(--fg)'}">${esc(pName(o.player_id))}</b><div class="tiny muted">${fmtD(o.from)}${o.to ? ' – ' + fmtD(o.to) : ' – heute'}${o.how ? ' · ' + (lbl[o.how] || esc(o.how)) : ''}</div></div><span class="num">${o.pts}</span></div>`).join('')}</div>` : '<div class="small muted">Hatte noch nie einen Besitzer.</div>'}`;
 }
 function openAth(id) { let m = document.getElementById('athModal'); if (!m) { m = document.createElement('div'); m.id = 'athModal'; document.body.appendChild(m); } m.innerHTML = vAthlete(id); document.body.classList.add('noscroll'); const x = m.querySelector('.modal-x'); if (x) x.focus(); }
 function closeAth() { const m = document.getElementById('athModal'); if (m) m.remove(); document.body.classList.remove('noscroll'); }
@@ -391,6 +579,11 @@ async function copy(v) {
 }
 function setTab(t) { S.ui.tab = t; S.ui.confirm = null; try { sessionStorage.setItem('sf_tab', t); } catch (e) { } render(); window.scrollTo(0, 0); }
 
+document.addEventListener('change', async e => {
+  if (e.target.classList && e.target.classList.contains('adteam')) {
+    try { await rpc('admin_set_team_name', { p_token: S.token, p_id: +e.target.dataset.id, p_name: e.target.value }); toast('Teamname gespeichert'); await load(); } catch (err) { toast(err.message); }
+  }
+});
 document.addEventListener('input', e => {
   if (e.target.id === 'dq') { S.ui.dq = e.target.value; $('#dpool').innerHTML = draftPool(); }
   if (e.target.id === 'tq') { S.ui.tq = e.target.value; $('#tpool').innerHTML = freePool(); }
@@ -404,6 +597,12 @@ document.addEventListener('click', async e => {
     case 'ath': e.preventDefault(); e.stopPropagation(); openAth(id); break;
     case 'closeAth': closeAth(); break;
     case 'hideHint': store('sf_hint', '1'); render(); break;
+    case 'saveTeam': { const v = ($('#teamName').value || '').trim(); b.disabled = true; try { const r = await rpc('set_team_name', { p_token: S.token, p_name: v }); S.me.team_name = r; toast(r ? 'Teamname gespeichert' : 'Teamname entfernt'); await load(); } catch (err) { toast(err.message); b.disabled = false; } break; }
+    case 'wk': S.ui.week = Math.max(0, Math.min((S.B ? S.B.weeks.length : 1) - 1, S.ui.week + +b.dataset.d)); render(); break;
+    case 'chart': { const r = b.getBoundingClientRect(); const n = +b.dataset.n; const vx = (e.clientX - r.left) / r.width * 340; const i = Math.round((vx - +b.dataset.l) / (+b.dataset.w / n)); const k = Math.max(0, Math.min(n, i)); S.ui.chartI = S.ui.chartI === k ? null : k; render(); break; }
+    case 'cf': S.ui.cf = b.dataset.f; render(); break;
+    case 'cpast': S.ui.cpast = !S.ui.cpast; render(); break;
+    case 'goRace': S.ui.race = id; setTab('rennen'); setTimeout(() => { const el = document.querySelector(`[data-act="race"][data-id="${CSS.escape(id)}"]`); if (el) el.scrollIntoView({ block: 'start' }); }, 30); break;
     case 'openP': S.ui.open = S.ui.open === +id ? null : +id; render(); break;
     case 'race': S.ui.race = S.ui.race === id ? null : id; render(); break;
     case 'dg': S.ui.dg = b.dataset.g; render(); break;

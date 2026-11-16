@@ -1,0 +1,733 @@
+{
+ "updated": "2026-11-16",
+ "note": "Startzeiten in Schweizer Zeit. Quelle: watson.ch / FIS. Änderungen vorbehalten.",
+ "races": [
+  {
+   "date": "2026-10-24",
+   "g": "w",
+   "place": "Sölden",
+   "nat": "AUT",
+   "disc": "Riesenslalom",
+   "counts": false
+  },
+  {
+   "date": "2026-10-25",
+   "g": "m",
+   "place": "Sölden",
+   "nat": "AUT",
+   "disc": "Riesenslalom",
+   "counts": false
+  },
+  {
+   "date": "2026-11-14",
+   "g": "w",
+   "place": "Levi",
+   "nat": "FIN",
+   "disc": "Slalom",
+   "t1": "10:00",
+   "t2": "13:00"
+  },
+  {
+   "date": "2026-11-15",
+   "g": "m",
+   "place": "Levi",
+   "nat": "FIN",
+   "disc": "Slalom",
+   "t1": "10:00",
+   "t2": "13:00"
+  },
+  {
+   "date": "2026-11-21",
+   "g": "w",
+   "place": "Gurgl",
+   "nat": "AUT",
+   "disc": "Slalom",
+   "t1": "10:30",
+   "t2": "13:30"
+  },
+  {
+   "date": "2026-11-22",
+   "g": "m",
+   "place": "Gurgl",
+   "nat": "AUT",
+   "disc": "Slalom",
+   "t1": "10:30",
+   "t2": "13:30"
+  },
+  {
+   "date": "2026-11-28",
+   "g": "w",
+   "place": "Killington",
+   "nat": "USA",
+   "disc": "Riesenslalom",
+   "t1": "15:30",
+   "t2": "18:30"
+  },
+  {
+   "date": "2026-11-28",
+   "g": "m",
+   "place": "Copper Mountain",
+   "nat": "USA",
+   "disc": "Super-G",
+   "t1": "19:45"
+  },
+  {
+   "date": "2026-11-29",
+   "g": "w",
+   "place": "Killington",
+   "nat": "USA",
+   "disc": "Slalom",
+   "t1": "16:30",
+   "t2": "19:30"
+  },
+  {
+   "date": "2026-11-29",
+   "g": "m",
+   "place": "Copper Mountain",
+   "nat": "USA",
+   "disc": "Riesenslalom",
+   "t1": "18:00",
+   "t2": "21:00"
+  },
+  {
+   "date": "2026-12-03",
+   "g": "m",
+   "place": "Beaver Creek",
+   "nat": "USA",
+   "disc": "Abfahrt",
+   "t1": "19:00"
+  },
+  {
+   "date": "2026-12-04",
+   "g": "m",
+   "place": "Beaver Creek",
+   "nat": "USA",
+   "disc": "Abfahrt",
+   "t1": "19:00"
+  },
+  {
+   "date": "2026-12-05",
+   "g": "w",
+   "place": "Tremblant",
+   "nat": "CAN",
+   "disc": "Riesenslalom",
+   "t1": "17:00",
+   "t2": "20:00"
+  },
+  {
+   "date": "2026-12-05",
+   "g": "m",
+   "place": "Beaver Creek",
+   "nat": "USA",
+   "disc": "Super-G",
+   "t1": "18:30"
+  },
+  {
+   "date": "2026-12-06",
+   "g": "w",
+   "place": "Tremblant",
+   "nat": "CAN",
+   "disc": "Slalom",
+   "t1": "16:30",
+   "t2": "19:30"
+  },
+  {
+   "date": "2026-12-06",
+   "g": "m",
+   "place": "Beaver Creek",
+   "nat": "USA",
+   "disc": "Riesenslalom",
+   "t1": "18:00",
+   "t2": "21:00"
+  },
+  {
+   "date": "2026-12-11",
+   "g": "w",
+   "place": "Beaver Creek",
+   "nat": "USA",
+   "disc": "Abfahrt",
+   "t1": "19:00"
+  },
+  {
+   "date": "2026-12-12",
+   "g": "m",
+   "place": "Val d'Isère",
+   "nat": "FRA",
+   "disc": "Riesenslalom",
+   "t1": "10:00",
+   "t2": "13:00"
+  },
+  {
+   "date": "2026-12-12",
+   "g": "w",
+   "place": "Beaver Creek",
+   "nat": "USA",
+   "disc": "Abfahrt",
+   "t1": "18:00"
+  },
+  {
+   "date": "2026-12-13",
+   "g": "m",
+   "place": "Val d'Isère",
+   "nat": "FRA",
+   "disc": "Slalom",
+   "t1": "10:00",
+   "t2": "13:00"
+  },
+  {
+   "date": "2026-12-13",
+   "g": "w",
+   "place": "Beaver Creek",
+   "nat": "USA",
+   "disc": "Super-G",
+   "t1": "19:00"
+  },
+  {
+   "date": "2026-12-18",
+   "g": "w",
+   "place": "St. Moritz",
+   "nat": "SUI",
+   "disc": "Super-G",
+   "t1": "10:30"
+  },
+  {
+   "date": "2026-12-18",
+   "g": "m",
+   "place": "Gröden",
+   "nat": "ITA",
+   "disc": "Super-G",
+   "t1": "12:00"
+  },
+  {
+   "date": "2026-12-19",
+   "g": "w",
+   "place": "St. Moritz",
+   "nat": "SUI",
+   "disc": "Super-G",
+   "t1": "10:30"
+  },
+  {
+   "date": "2026-12-19",
+   "g": "m",
+   "place": "Gröden",
+   "nat": "ITA",
+   "disc": "Abfahrt",
+   "t1": "12:00"
+  },
+  {
+   "date": "2026-12-20",
+   "g": "w",
+   "place": "St. Moritz",
+   "nat": "SUI",
+   "disc": "Riesenslalom",
+   "t1": "09:30",
+   "t2": "12:30"
+  },
+  {
+   "date": "2026-12-20",
+   "g": "m",
+   "place": "Alta Badia",
+   "nat": "ITA",
+   "disc": "Riesenslalom",
+   "t1": "10:30",
+   "t2": "13:30"
+  },
+  {
+   "date": "2026-12-21",
+   "g": "m",
+   "place": "Alta Badia",
+   "nat": "ITA",
+   "disc": "Slalom",
+   "t1": "17:45",
+   "t2": "21:00"
+  },
+  {
+   "date": "2026-12-22",
+   "g": "w",
+   "place": "Courchevel",
+   "nat": "FRA",
+   "disc": "Slalom",
+   "t1": "17:45",
+   "t2": "20:45"
+  },
+  {
+   "date": "2026-12-23",
+   "g": "m",
+   "place": "Madonna di Campiglio",
+   "nat": "ITA",
+   "disc": "Slalom",
+   "t1": "17:45",
+   "t2": "21:00"
+  },
+  {
+   "date": "2026-12-28",
+   "g": "w",
+   "place": "Dachstein",
+   "nat": "AUT",
+   "disc": "Riesenslalom",
+   "t1": "10:00",
+   "t2": "13:00",
+   "note": "Austragungsort noch nicht definitiv"
+  },
+  {
+   "date": "2026-12-28",
+   "g": "m",
+   "place": "Bormio",
+   "nat": "ITA",
+   "disc": "Abfahrt",
+   "t1": "11:30"
+  },
+  {
+   "date": "2026-12-29",
+   "g": "w",
+   "place": "Dachstein",
+   "nat": "AUT",
+   "disc": "Slalom",
+   "t1": "10:00",
+   "t2": "13:00",
+   "note": "Austragungsort noch nicht definitiv"
+  },
+  {
+   "date": "2026-12-29",
+   "g": "m",
+   "place": "Bormio",
+   "nat": "ITA",
+   "disc": "Super-G",
+   "t1": "11:30"
+  },
+  {
+   "date": "2027-01-02",
+   "g": "m",
+   "place": "Kranjska Gora",
+   "nat": "SLO",
+   "disc": "Riesenslalom",
+   "t1": "10:00",
+   "t2": "13:00"
+  },
+  {
+   "date": "2027-01-03",
+   "g": "m",
+   "place": "Kranjska Gora",
+   "nat": "SLO",
+   "disc": "Slalom",
+   "t1": "10:00",
+   "t2": "13:00"
+  },
+  {
+   "date": "2027-01-04",
+   "g": "w",
+   "place": "Flachau",
+   "nat": "AUT",
+   "disc": "Riesenslalom",
+   "t1": "17:45",
+   "t2": "20:45"
+  },
+  {
+   "date": "2027-01-05",
+   "g": "w",
+   "place": "Flachau",
+   "nat": "AUT",
+   "disc": "Slalom",
+   "t1": "18:00",
+   "t2": "21:00"
+  },
+  {
+   "date": "2027-01-09",
+   "g": "m",
+   "place": "Adelboden",
+   "nat": "SUI",
+   "disc": "Riesenslalom",
+   "t1": "10:30",
+   "t2": "13:30"
+  },
+  {
+   "date": "2027-01-09",
+   "g": "w",
+   "place": "Val di Fassa",
+   "nat": "ITA",
+   "disc": "Abfahrt",
+   "t1": "11:30"
+  },
+  {
+   "date": "2027-01-10",
+   "g": "m",
+   "place": "Adelboden",
+   "nat": "SUI",
+   "disc": "Slalom",
+   "t1": "10:30",
+   "t2": "13:30"
+  },
+  {
+   "date": "2027-01-10",
+   "g": "w",
+   "place": "Val di Fassa",
+   "nat": "ITA",
+   "disc": "Super-G",
+   "t1": "11:30"
+  },
+  {
+   "date": "2027-01-15",
+   "g": "w",
+   "place": "Cortina d'Ampezzo",
+   "nat": "ITA",
+   "disc": "Abfahrt",
+   "t1": "11:00"
+  },
+  {
+   "date": "2027-01-15",
+   "g": "m",
+   "place": "Wengen",
+   "nat": "SUI",
+   "disc": "Super-G",
+   "t1": "12:30"
+  },
+  {
+   "date": "2027-01-16",
+   "g": "w",
+   "place": "Cortina d'Ampezzo",
+   "nat": "ITA",
+   "disc": "Abfahrt",
+   "t1": "11:00"
+  },
+  {
+   "date": "2027-01-16",
+   "g": "m",
+   "place": "Wengen",
+   "nat": "SUI",
+   "disc": "Abfahrt",
+   "t1": "12:30"
+  },
+  {
+   "date": "2027-01-17",
+   "g": "m",
+   "place": "Wengen",
+   "nat": "SUI",
+   "disc": "Slalom",
+   "t1": "10:00",
+   "t2": "13:00"
+  },
+  {
+   "date": "2027-01-17",
+   "g": "w",
+   "place": "Cortina d'Ampezzo",
+   "nat": "ITA",
+   "disc": "Super-G",
+   "t1": "11:15"
+  },
+  {
+   "date": "2027-01-19",
+   "g": "w",
+   "place": "Kronplatz",
+   "nat": "ITA",
+   "disc": "Riesenslalom",
+   "t1": "10:30",
+   "t2": "13:30"
+  },
+  {
+   "date": "2027-01-22",
+   "g": "m",
+   "place": "Kitzbühel",
+   "nat": "AUT",
+   "disc": "Super-G",
+   "t1": "11:30"
+  },
+  {
+   "date": "2027-01-23",
+   "g": "w",
+   "place": "Jasná",
+   "nat": "SVK",
+   "disc": "Riesenslalom",
+   "t1": "10:00",
+   "t2": "13:30"
+  },
+  {
+   "date": "2027-01-23",
+   "g": "m",
+   "place": "Kitzbühel",
+   "nat": "AUT",
+   "disc": "Abfahrt",
+   "t1": "11:30"
+  },
+  {
+   "date": "2027-01-24",
+   "g": "w",
+   "place": "Jasná",
+   "nat": "SVK",
+   "disc": "Slalom",
+   "t1": "09:30",
+   "t2": "12:15"
+  },
+  {
+   "date": "2027-01-24",
+   "g": "m",
+   "place": "Kitzbühel",
+   "nat": "AUT",
+   "disc": "Slalom",
+   "t1": "10:30",
+   "t2": "13:30"
+  },
+  {
+   "date": "2027-01-26",
+   "g": "m",
+   "place": "Schladming",
+   "nat": "AUT",
+   "disc": "Riesenslalom",
+   "t1": "17:45",
+   "t2": "20:45"
+  },
+  {
+   "date": "2027-01-27",
+   "g": "m",
+   "place": "Schladming",
+   "nat": "AUT",
+   "disc": "Slalom",
+   "t1": "17:45",
+   "t2": "20:45"
+  },
+  {
+   "date": "2027-01-29",
+   "g": "w",
+   "place": "Kranjska Gora",
+   "nat": "SLO",
+   "disc": "Riesenslalom",
+   "t1": "10:00",
+   "t2": "13:00"
+  },
+  {
+   "date": "2027-01-30",
+   "g": "m",
+   "place": "Chamonix",
+   "nat": "FRA",
+   "disc": "Slalom",
+   "t1": "09:30",
+   "t2": "12:30"
+  },
+  {
+   "date": "2027-01-30",
+   "g": "w",
+   "place": "Kranjska Gora",
+   "nat": "SLO",
+   "disc": "Slalom",
+   "t1": "10:30",
+   "t2": "13:30"
+  },
+  {
+   "date": "2027-02-20",
+   "g": "m",
+   "place": "Garmisch-Partenkirchen",
+   "nat": "GER",
+   "disc": "Abfahrt",
+   "t1": "10:30"
+  },
+  {
+   "date": "2027-02-20",
+   "g": "w",
+   "place": "Lenzerheide",
+   "nat": "SUI",
+   "disc": "Super-G",
+   "t1": "12:00"
+  },
+  {
+   "date": "2027-02-21",
+   "g": "m",
+   "place": "Garmisch-Partenkirchen",
+   "nat": "GER",
+   "disc": "Super-G",
+   "t1": "10:30"
+  },
+  {
+   "date": "2027-02-21",
+   "g": "w",
+   "place": "Lenzerheide",
+   "nat": "SUI",
+   "disc": "Super-G",
+   "t1": "12:00"
+  },
+  {
+   "date": "2027-02-27",
+   "g": "w",
+   "place": "Garmisch-Partenkirchen",
+   "nat": "GER",
+   "disc": "Abfahrt",
+   "t1": "10:15"
+  },
+  {
+   "date": "2027-02-27",
+   "g": "m",
+   "place": "Saalbach",
+   "nat": "AUT",
+   "disc": "Abfahrt",
+   "t1": "11:30"
+  },
+  {
+   "date": "2027-02-28",
+   "g": "w",
+   "place": "Garmisch-Partenkirchen",
+   "nat": "GER",
+   "disc": "Abfahrt",
+   "t1": "10:15"
+  },
+  {
+   "date": "2027-02-28",
+   "g": "m",
+   "place": "Saalbach",
+   "nat": "AUT",
+   "disc": "Super-G",
+   "t1": "11:30"
+  },
+  {
+   "date": "2027-03-06",
+   "g": "w",
+   "place": "Soldeu",
+   "nat": "AND",
+   "disc": "Riesenslalom",
+   "t1": "09:30",
+   "t2": "12:30"
+  },
+  {
+   "date": "2027-03-06",
+   "g": "m",
+   "place": "Kvitfjell",
+   "nat": "NOR",
+   "disc": "Abfahrt",
+   "t1": "11:00"
+  },
+  {
+   "date": "2027-03-07",
+   "g": "w",
+   "place": "Soldeu",
+   "nat": "AND",
+   "disc": "Slalom",
+   "t1": "09:30",
+   "t2": "12:30"
+  },
+  {
+   "date": "2027-03-07",
+   "g": "m",
+   "place": "Kvitfjell",
+   "nat": "NOR",
+   "disc": "Super-G",
+   "t1": "11:00"
+  },
+  {
+   "date": "2027-03-12",
+   "g": "w",
+   "place": "Kvitfjell",
+   "nat": "NOR",
+   "disc": "Abfahrt",
+   "t1": "11:00",
+   "note": "Austragungsort noch nicht definitiv (evtl. Narvik)"
+  },
+  {
+   "date": "2027-03-13",
+   "g": "m",
+   "place": "Åre",
+   "nat": "SWE",
+   "disc": "Riesenslalom",
+   "t1": "10:00",
+   "t2": "13:00"
+  },
+  {
+   "date": "2027-03-13",
+   "g": "w",
+   "place": "Kvitfjell",
+   "nat": "NOR",
+   "disc": "Super-G",
+   "t1": "11:00",
+   "note": "Austragungsort noch nicht definitiv (evtl. Narvik)"
+  },
+  {
+   "date": "2027-03-14",
+   "g": "m",
+   "place": "Åre",
+   "nat": "SWE",
+   "disc": "Slalom",
+   "t1": "09:30",
+   "t2": "12:30"
+  },
+  {
+   "date": "2027-03-20",
+   "g": "m",
+   "place": "Sun Valley",
+   "nat": "USA",
+   "disc": "Abfahrt",
+   "t1": "18:00",
+   "note": "Weltcupfinal"
+  },
+  {
+   "date": "2027-03-20",
+   "g": "w",
+   "place": "Sun Valley",
+   "nat": "USA",
+   "disc": "Abfahrt",
+   "t1": "19:30",
+   "note": "Weltcupfinal"
+  },
+  {
+   "date": "2027-03-21",
+   "g": "w",
+   "place": "Sun Valley",
+   "nat": "USA",
+   "disc": "Super-G",
+   "t1": "18:00",
+   "note": "Weltcupfinal"
+  },
+  {
+   "date": "2027-03-21",
+   "g": "m",
+   "place": "Sun Valley",
+   "nat": "USA",
+   "disc": "Super-G",
+   "t1": "19:30",
+   "note": "Weltcupfinal"
+  },
+  {
+   "date": "2027-03-23",
+   "g": "w",
+   "place": "Sun Valley",
+   "nat": "USA",
+   "disc": "Riesenslalom",
+   "t1": "16:30",
+   "t2": "19:00",
+   "note": "Weltcupfinal"
+  },
+  {
+   "date": "2027-03-24",
+   "g": "m",
+   "place": "Sun Valley",
+   "nat": "USA",
+   "disc": "Riesenslalom",
+   "t1": "16:30",
+   "t2": "19:00",
+   "note": "Weltcupfinal"
+  },
+  {
+   "date": "2027-03-25",
+   "g": "w",
+   "place": "Sun Valley",
+   "nat": "USA",
+   "disc": "Slalom",
+   "t1": "16:00",
+   "t2": "19:00",
+   "note": "Weltcupfinal"
+  },
+  {
+   "date": "2027-03-25",
+   "g": "m",
+   "place": "Sun Valley",
+   "nat": "USA",
+   "disc": "Slalom",
+   "t1": "17:00",
+   "t2": "20:00",
+   "note": "Weltcupfinal"
+  }
+ ],
+ "events": [
+  {
+   "title": "🏆 Ski-WM Crans-Montana (zählt nicht)",
+   "from": "2027-02-01",
+   "to": "2027-02-14",
+   "note": "WM-Rennen zählen nicht für Ski-Fantasy."
+  }
+ ]
+}
