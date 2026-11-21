@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T21:35:19Z",
+  "updated": "2026-11-21T15:20:46Z",
   "races": [
     {
       "id": "2026-10-24-w-riesenslalom-solden",
@@ -668,6 +668,161 @@
           "first": "Johannes",
           "last": "Strolz",
           "nat": "AUT"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-w-slalom-gurgl",
+      "date": "2026-11-21",
+      "place": "Gurgl",
+      "disc": "Slalom",
+      "g": "w",
+      "source": "https://text.orf.at/channel/orf1/page/262/1.html",
+      "provisional": true,
+      "results": [
+        {
+          "rank": 1,
+          "first": "Lara",
+          "last": "Colturi",
+          "nat": "ALB"
+        },
+        {
+          "rank": 2,
+          "first": "Sara",
+          "last": "Hector",
+          "nat": "SWE"
+        },
+        {
+          "rank": 3,
+          "first": "Anna",
+          "last": "Swenn Larsson",
+          "nat": "SWE"
+        },
+        {
+          "rank": 4,
+          "first": "AJ",
+          "last": "Hurt",
+          "nat": "USA"
+        },
+        {
+          "rank": 5,
+          "first": "Camille",
+          "last": "Rast",
+          "nat": "SUI"
+        },
+        {
+          "rank": 5,
+          "first": "Hanna",
+          "last": "Aronsson Elfman",
+          "nat": "SWE"
+        },
+        {
+          "rank": 7,
+          "first": "Zrinka",
+          "last": "Ljutić",
+          "nat": "CRO"
+        },
+        {
+          "rank": 8,
+          "first": "Emma",
+          "last": "Aicher",
+          "nat": "GER"
+        },
+        {
+          "rank": 9,
+          "first": "Lara",
+          "last": "Della Mea",
+          "nat": "ITA"
+        },
+        {
+          "rank": 10,
+          "first": "Dzenifera",
+          "last": "Germane",
+          "nat": "LAT"
+        },
+        {
+          "rank": 11,
+          "first": "Marion",
+          "last": "Chevrier",
+          "nat": "FRA"
+        },
+        {
+          "rank": 12,
+          "first": "Lena",
+          "last": "Dürr",
+          "nat": "GER"
+        },
+        {
+          "rank": 13,
+          "first": "Paula",
+          "last": "Moltzan",
+          "nat": "USA"
+        },
+        {
+          "rank": 14,
+          "first": "Caitlin",
+          "last": "McFarlane",
+          "nat": "FRA"
+        },
+        {
+          "rank": 15,
+          "first": "Selina",
+          "last": "Egloff",
+          "nat": "SUI"
+        },
+        {
+          "rank": 16,
+          "first": "Katie",
+          "last": "Hensien",
+          "nat": "USA"
+        },
+        {
+          "rank": 17,
+          "first": "Eliane",
+          "last": "Christen",
+          "nat": "SUI"
+        },
+        {
+          "rank": 18,
+          "first": "Neja",
+          "last": "Dvornik",
+          "nat": "SLO"
+        },
+        {
+          "rank": 19,
+          "first": "Aline",
+          "last": "Höpli",
+          "nat": "SUI"
+        },
+        {
+          "rank": 20,
+          "first": "Martina",
+          "last": "Dubovská",
+          "nat": "CZE"
+        },
+        {
+          "rank": 21,
+          "first": "Cornelia",
+          "last": "Öhlund",
+          "nat": "SWE"
+        },
+        {
+          "rank": 22,
+          "first": "Charlotte",
+          "last": "Lingg",
+          "nat": "LIE"
+        },
+        {
+          "rank": 23,
+          "first": "Liv",
+          "last": "Moritz",
+          "nat": "USA"
+        },
+        {
+          "rank": 24,
+          "first": "Marie",
+          "last": "Lamure",
+          "nat": "FRA"
         }
       ]
     }
