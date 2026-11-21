@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-21T15:20:46Z",
+  "updated": "2026-11-21T19:18:38Z",
   "races": [
     {
       "id": "2026-10-24-w-riesenslalom-solden",
@@ -677,8 +677,8 @@
       "place": "Gurgl",
       "disc": "Slalom",
       "g": "w",
-      "source": "https://text.orf.at/channel/orf1/page/262/1.html",
-      "provisional": true,
+      "source": "https://www.fis-ski.com/DB/general/results.html?sectorcode=AL&raceid=131581",
+      "provisional": false,
       "results": [
         {
           "rank": 1,
