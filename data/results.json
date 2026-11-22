@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-21T19:18:38Z",
+  "updated": "2026-11-22T19:21:05Z",
   "races": [
     {
       "id": "2026-10-24-w-riesenslalom-solden",
@@ -823,6 +823,167 @@
           "first": "Marie",
           "last": "Lamure",
           "nat": "FRA"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-22-m-slalom-gurgl",
+      "date": "2026-11-22",
+      "place": "Gurgl",
+      "disc": "Slalom",
+      "g": "m",
+      "source": "https://www.fis-ski.com/DB/general/results.html?sectorcode=AL&raceid=131582",
+      "provisional": false,
+      "results": [
+        {
+          "rank": 1,
+          "first": "Timon",
+          "last": "Haugan",
+          "nat": "NOR"
+        },
+        {
+          "rank": 2,
+          "first": "Eirik Hystad",
+          "last": "Solberg",
+          "nat": "NOR"
+        },
+        {
+          "rank": 3,
+          "first": "Tanguy",
+          "last": "Nef",
+          "nat": "SUI"
+        },
+        {
+          "rank": 4,
+          "first": "Armand",
+          "last": "Marchant",
+          "nat": "BEL"
+        },
+        {
+          "rank": 5,
+          "first": "Michael",
+          "last": "Matt",
+          "nat": "AUT"
+        },
+        {
+          "rank": 6,
+          "first": "Samuel",
+          "last": "Kolega",
+          "nat": "CRO"
+        },
+        {
+          "rank": 6,
+          "first": "Fabian",
+          "last": "Ax Swartz",
+          "nat": "SWE"
+        },
+        {
+          "rank": 8,
+          "first": "Laurie",
+          "last": "Taylor",
+          "nat": "GBR"
+        },
+        {
+          "rank": 9,
+          "first": "Jett",
+          "last": "Seymour",
+          "nat": "USA"
+        },
+        {
+          "rank": 10,
+          "first": "Steven",
+          "last": "Amiez",
+          "nat": "FRA"
+        },
+        {
+          "rank": 11,
+          "first": "Clement",
+          "last": "Noel",
+          "nat": "FRA"
+        },
+        {
+          "rank": 12,
+          "first": "Joshua",
+          "last": "Sturm",
+          "nat": "AUT"
+        },
+        {
+          "rank": 12,
+          "first": "Paco",
+          "last": "Rassat",
+          "nat": "FRA"
+        },
+        {
+          "rank": 14,
+          "first": "Hans",
+          "last": "Grahl-Madsen",
+          "nat": "NOR"
+        },
+        {
+          "rank": 15,
+          "first": "Auguste",
+          "last": "Aulnette",
+          "nat": "FRA"
+        },
+        {
+          "rank": 16,
+          "first": "Daniel",
+          "last": "Yule",
+          "nat": "SUI"
+        },
+        {
+          "rank": 17,
+          "first": "Antoine",
+          "last": "Azzolin",
+          "nat": "FRA"
+        },
+        {
+          "rank": 18,
+          "first": "Linus",
+          "last": "Strasser",
+          "nat": "GER"
+        },
+        {
+          "rank": 19,
+          "first": "Fabio",
+          "last": "Gstrein",
+          "nat": "AUT"
+        },
+        {
+          "rank": 20,
+          "first": "Loic",
+          "last": "Meillard",
+          "nat": "SUI"
+        },
+        {
+          "rank": 21,
+          "first": "Sam",
+          "last": "Maes",
+          "nat": "BEL"
+        },
+        {
+          "rank": 22,
+          "first": "Benjamin",
+          "last": "Ritchie",
+          "nat": "USA"
+        },
+        {
+          "rank": 23,
+          "first": "Dominik",
+          "last": "Raschner",
+          "nat": "AUT"
+        },
+        {
+          "rank": 24,
+          "first": "Tobias",
+          "last": "Kastlunger",
+          "nat": "ITA"
+        },
+        {
+          "rank": 25,
+          "first": "Adrian",
+          "last": "Pertl",
+          "nat": "AUT"
         }
       ]
     }
